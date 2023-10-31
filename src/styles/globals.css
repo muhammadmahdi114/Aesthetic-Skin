@@ -1,6 +1,7 @@
-@tailwind base;
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;1,400&family=Pacifico&display=swap');@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 :root {
   --foreground-rgb: 0, 0, 0;

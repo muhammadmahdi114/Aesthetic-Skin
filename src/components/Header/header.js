@@ -10,14 +10,14 @@ export default function Header() {
                     className="mb-2 mt-2"
                 />
             </div>
-            <div className="flex flex-col gap-y-32 mt-4 text-black font-bold  font-cursive text-">
-                <button className="p-1 hover:text-white hover:bg-blue-900 hover:shadow-xl hover:translate-y-[-5px] transition-all transform -rotate-90">
+            <div className="flex flex-col gap-y-32 mt-4 text-black font-bold  font-cursive ">
+                <button className="p-1 hover:text-white hover:bg-[#c5c5c5] hover:shadow-xl hover:translate-y-[-5px] transition-all transform -rotate-90">
                     PRODUCTS
                 </button>
-                <button className="p-1 hover:text-white hover:bg-blue-900 hover:shadow-xl hover:translate-y-[-8px] transition-all transform -rotate-90">
+                <button className="p-1 hover:text-white hover:bg-[#c5c5c5] hover:shadow-xl hover:translate-y-[-8px] transition-all transform -rotate-90">
                     AI RECOGNITION
                 </button>
-                <button className="p-1 hover:text-white hover:bg-blue-900 hover:shadow-xl hover:translate-y-[-5px] transition-all transform -rotate-90">
+                <button className="p-1 hover:text-white hover:bg-[#c5c5c5] hover:shadow-xl hover:translate-y-[-5px] transition-all transform -rotate-90">
                     ABOUT US
                 </button>
             </div>
