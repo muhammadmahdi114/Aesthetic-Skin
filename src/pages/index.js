@@ -11,16 +11,11 @@ import About from '@/components/About/about'
 
 export default function Index() {
   return (
-    <Baselayout>
+    <Baselayout>  
       <Product />
       <AI />
       <Blog />
       <About />
-
-
-
-
-
     </Baselayout>
   )
 }
