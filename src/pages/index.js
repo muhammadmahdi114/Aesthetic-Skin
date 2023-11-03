@@ -2,6 +2,9 @@ import Baselayout from '@/components/Baselayout'
 import React from 'react'
 import Product from '@/components/Products/product'
 import AI from '@/components/AI/ai'
+import Blog from '@/components/Blog/blog'
+import About from '@/components/About/about'
+
 
 
 
@@ -9,10 +12,14 @@ import AI from '@/components/AI/ai'
 export default function Index() {
   return (
     <Baselayout>
-      <Product/>
-      <AI/>
-      
-      
+      <Product />
+      <AI />
+      <Blog />
+      <About />
+
+
+
+
 
     </Baselayout>
   )
