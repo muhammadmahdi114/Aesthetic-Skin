@@ -96,7 +96,7 @@ export default function Product() {
     return (
         <div className="font-cursive flex flex-col">
 
-            <div className="h-screen bg-bgprod bg-no-repeat bg-cover p-4">
+            <div className="h-screen opacity-50 bg-bgprod bg-no-repeat w-screen bg-cover p-4">
                 <div className='flex'>
                     <div className="flex justify-center opacity-80 pl-36 w-screen gap-x-6">
                         {/* Search Bar with Image */}
@@ -135,7 +135,7 @@ export default function Product() {
                     </div>
                     <div className='flex gap-x-3 bg-white w-64 h-10 justify-center items-center mt-4 opacity-80 rounded-2xl'>
                         <div className='text-black flex items-end pr-6'>
-                            <a type='/'  className='flex items-center' href='login/login'>
+                            <a type='/' className='flex items-center' href='login/login'>
                                 <img
                                     src="/login.png"
                                     alt="Login Icon"
@@ -165,7 +165,11 @@ export default function Product() {
 
 
             </div>
+            <div>
+                <h1 className="font-cursive text-6xl text-center bg-slate-200 text-black font-extrabold">Products</h1>
+            </div>
             <div className="bg-slate-200  flex justify-end pl-40 pr-5">
+
                 <div className="container py-4">
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 ">
