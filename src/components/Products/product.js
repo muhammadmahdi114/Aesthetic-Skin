@@ -1,10 +1,8 @@
 import React from 'react';
 import axios from "axios";
 import { useRouter } from 'next/router';
-import Home from "/pages/Home/home"
-import Login from "/pages/Login/login"
-import Signup from "/pages/Signup/signup"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+
 
 const ListingCard = ({ title, location, price, imageUrl }) => {
     return (
