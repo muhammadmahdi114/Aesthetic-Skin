@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useRouter } from 'next/router';
 
-function Login() {
-    const history = useNavigate();
+function Signup() {
+    const router = useRouter();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -14,67 +14,43 @@ function Login() {
         e.preventDefault();
 
         try {
-            await axios.post("http://localhost:8000/signup", {
+            const res = await axios.post("http://localhost:3000/signup", {
                 name,
                 email,
                 password,
                 age,
                 gender
-            })
-            .then((res) => {
-                if (res.data === "exist") {
-                    alert("User already exists");
-                } else if (res.data === "notexist") {
-                  history("/home", { state: { id: email, username: name } });
-                }
-            })
-            .catch((e) => {
-                alert("Wrong details");
-                console.log(e);
             });
 
-        } catch (e) {
-            console.log(e);
+            if (res.data === "exist") {
+                alert("User already exists");
+            } else if (res.data === "notexist") {
+                router.push({
+                    pathname: "/home",
+                    query: { id: email, username: name },
+                  });
+                  
+            }
+        } catch (error) {
+            alert("Wrong details");
+            console.error(error);
         }
     }
 
     return (
-        <div className="login">
-            <h1>Signup</h1>
-            <form action="POST">
-                <input
-                    type="text"
-                    onChange={(e) => { setName(e.target.value) }}
-                    placeholder="Name" 
-                />
-                <input
-                    type="email"
-                    onChange={(e) => { setEmail(e.target.value) }}
-                    placeholder="Email"
-                />
-                <input
-                    type="password"
-                    onChange={(e) => { setPassword(e.target.value) }}
-                    placeholder="Password"
-                />
-                <input
-                    type="number"
-                    onChange={(e) => { setAge(e.target.value) }}
-                    placeholder="Age"
-                />
-                <input
-                    type="text"
-                    onChange={(e) => { setGender(e.target.value) }}
-                    placeholder="Gender"
-                />
-                <input type="submit" onClick={submit} />
-            </form>
-            <br />
-            <p>OR</p>
-            <br />
-            <Link to="/">Login Page</Link>
+        <div className="bg-bgLogin h-screen flex flex-col items-center justify-center">
+            <img src="/logo.png" className="h-52 -mt-20" alt="Logo" />
+
+            <div className="bg-white border-4 border-white rounded-lg p-9 flex flex-col justify-center items-center">
+                <input type="text" onChange={(e) => setName(e.target.value)} className="h-8 w-80 border-b-2 text-black border-gray-200 mt-3" placeholder="Name" />
+                <input type="email" onChange={(e) => setEmail(e.target.value)} className="h-8 w-80 border-b-2 text-black border-gray-200 mt-10" placeholder="Email" />
+                <input type="password" onChange={(e) => setPassword(e.target.value)} className="h-8 w-80 border-b-2 text-black border-gray-200 mt-10" placeholder="Password" />
+                <input type="number" onChange={(e) => setAge(e.target.value)} className="h-8 w-80 border-b-2 text-black border-gray-200 mt-10" placeholder="Age" />
+                <input type="text" onChange={(e) => setGender(e.target.value)} className="h-8 w-80 border-b-2 text-black border-gray-200 mt-10" placeholder="Gender" />
+                <button onClick={submit} className="h-12 w-80 text-white bg-sky-600 hover:bg-sky-700 mt-10 rounded-lg">Submit</button>
+            </div>
         </div>
     );
 }
 
-export default Login;
+export default Signup;

@@ -5,22 +5,13 @@ import AI from '@/components/AI/ai'
 import Blog from '@/components/Blog/blog'
 import About from '@/components/About/about'
 
-
-
-
-
 export default function Index() {
   return (
-    <Baselayout>
+    <Baselayout>  
       <Product />
-      <AI />
-      <Blog />
-      <About />
-
-
-
-
-
+      <AI/>
+      <Blog/>
+      <About/>
     </Baselayout>
   )
 }

@@ -1,8 +1,8 @@
 export default function Blog() {
     return (
         <div>
-            <section className="bg-gray-500 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen flex flex-col justify-start items-center py-10">
-                <h1 className="font-cursive text-6xl text-center  font-extrabold">BLOG</h1>
+            <section className="bg-slate-200 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen flex flex-col justify-start items-center py-10">
+                <h1 className="font-cursive text-6xl text-center text-black font-extrabold">BLOG</h1>
                 <div className="text-center pl-32 text-xl mx-auto text-black font-bold font-cursive mt-44">
                 A blog is a type of website or platform where individuals or organizations regularly publish articles, posts, or content on various<br/> topics , often in a chronological order, to share information, opinions,
                 </div>
