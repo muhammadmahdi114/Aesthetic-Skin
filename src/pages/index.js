@@ -4,14 +4,18 @@ import Product from '@/components/Products/product'
 import AI from '@/components/AI/ai'
 import Blog from '@/components/Blog/blog'
 import About from '@/components/About/about'
+import { useEffect } from 'react'
 
 export default function Index() {
+  useEffect(() => {
+    document.title = 'Aesthetic Skin';
+  }, []);
   return (
-    <Baselayout>  
+    <Baselayout>
       <Product />
-      <AI/>
-      <Blog/>
-      <About/>
+      <AI />
+      <Blog />
+      <About />
     </Baselayout>
   )
 }

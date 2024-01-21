@@ -92,6 +92,12 @@ export default function Product() {
 
         // Add more listings here
     ];
+    const handleSignupClick = () => {
+        window.location.href = '/Signup/signup';
+    };
+    const handleLoginClick = () => {
+        window.location.href = '/Login/login';
+    };
 
     return (
         <div className="font-cursive flex flex-col">
@@ -135,24 +141,24 @@ export default function Product() {
                     </div>
                     <div className='flex gap-x-3 bg-white w-64 h-10 justify-center items-center mt-4 opacity-80 rounded-2xl'>
                         <div className='text-black flex items-end pr-6'>
-                            <a type='/' className='flex items-center' href='login/login'>
+                            <button type='/' className='flex items-center' onClick={handleLoginClick}>
                                 <img
                                     src="/login.png"
                                     alt="Login Icon"
                                     className="w-6 h-6 border-black" // Add right padding to create space
                                 />
                                 &nbsp;Login
-                            </a>
+                            </button>
                         </div>
                         <div className='text-black gap-x-2 flex items-end'>
-                            <a type='/' className='flex items-center' href='signup/signup'>
+                            <button type='/' className='flex items-center' onClick={handleSignupClick}>
                                 <img
                                     src="/signup.png"
                                     alt="Signup Icon"
                                     className="w-6 h-6 border-black" // Add right padding to create space
                                 />
                                 &nbsp;Signup
-                            </a>
+                            </button>
                         </div>
                     </div>
 
