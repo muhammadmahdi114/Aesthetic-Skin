@@ -13,7 +13,7 @@ const ListingCard = ({ title, location, price, imageUrl }) => {
 
   return (
     <div
-      className="relative group overflow-hidden bg-white p-4 rounded-md shadow-md transition-transform transform hover:scale-105"
+      className="relative group overflow-hidden bg-white p-4 rounded-md shadow-lg shadow-black transition-transform transform hover:scale-105"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -120,7 +120,7 @@ export default function Product() {
   ];
 
   return (
-    <div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
+    < div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
       <div className="h-screen bg-bgprod bg-no-repeat w-screen bg-cover p-4">
         <div className='flex'>
           <div className="flex justify-center opacity-80 pl-72 w-screen gap-x-6">
