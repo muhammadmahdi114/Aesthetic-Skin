@@ -16,7 +16,7 @@ export default function AI() {
                     onClick={handleDiveInClick}
                     className="bg-blue-500 hover:bg-blue-700 text-[#e2e8f0] font-bold py-5 px-12 rounded-full mt-32 relative"
                 >
-                    Click to DIVE IN
+                Click to DIVE IN
                 </button>
             </section>
         </div>
