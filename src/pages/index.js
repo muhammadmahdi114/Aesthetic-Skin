@@ -1,12 +1,15 @@
 import Baselayout from '@/components/Baselayout';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Product from '@/components/Products/product';
 import AI from '@/components/AI/ai';
 import Blog from '@/components/Blog/blog';
 import About from '@/components/About/about';
 
 export default function Index() {
-  // Define your refs
+
+  useEffect(() => {
+    document.title = 'Aesthetic Skin';
+  }, []);
   const ProdRef = useRef(null);
   const AiRef = useRef(null);
   const BlogRef = useRef(null);
@@ -24,7 +27,7 @@ export default function Index() {
   ];
 
   return (
-    <Baselayout 
+    <Baselayout
       active={active}
       setActive={setActive}
       ProdRef={ProdRef}
