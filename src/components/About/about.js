@@ -16,7 +16,7 @@ const About = React.forwardRef((props, ref) => {
           techniques, increasing interest in aesthetic procedures,
           and joint research and development <br />initiatives  are expected to drive further industry expansion and public awareness
         </div>
-        <button className="bg-blue-500 ml-32 hover:bg-blue-700 text-white font-bold py-5 px-12 rounded-full mt-10 lg:mt-32">
+        <button className="hover:translate-y-[-10px] transition-all bg-blue-500 ml-32 hover:bg-blue-700 text-white font-bold py-5 px-12 rounded-full mt-10 lg:mt-32">
           <span>Give Review</span>
         </button>
       </section>
