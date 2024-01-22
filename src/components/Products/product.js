@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 const ListingCard = ({ title, location, price, imageUrl }) => {
   const [isHovered, setHovered] = useState(false);
@@ -12,7 +12,7 @@ const ListingCard = ({ title, location, price, imageUrl }) => {
   };
 
   return (
-    <div
+    <div 
       className="relative group overflow-hidden bg-white p-4 rounded-md shadow-lg shadow-black transition-transform transform hover:scale-105"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -40,87 +40,95 @@ const ListingCard = ({ title, location, price, imageUrl }) => {
   );
 };
 
-export default function Product() {
+const Product = React.forwardRef((props, ref) => {
   const listings = [
     {
-        id: 1,
-        title: 'Glutathione injections Miracle White',
-        price: 21000 ,
-        imageUrl: '/miracle.jpeg',
+      id: 1,
+      title: 'Glutathione injections Miracle White',
+      price: 21000,
+      imageUrl: '/miracle.jpeg',
     },
     {
-        id: 2,
-        title: 'Glutathione injections Glutax 75GX',
-      
-        price: 25000,
-        imageUrl: '/glutax75.jpeg',
+      id: 2,
+      title: 'Glutathione injections Glutax 75GX',
+      price: 25000,
+      imageUrl: '/glutax75.jpeg',
     },
     {
-        id: 3,
-        title: 'Glutathione injections Tationil',
-     
-        price: 18000,
-        imageUrl: '/tationilinj.jpeg',
+      id: 2,
+      title: 'Glutathione injections Glutax 75GX',
+    
+      price: 25000,
+      imageUrl: '/glutax75.jpeg',
+  },
+  {
+      id: 3,
+      title: 'Glutathione injections Tationil',
+   
+      price: 18000,
+      imageUrl: '/tationilinj.jpeg',
+  },
+  {
+      id: 4,
+      title: 'Profhilo Injection',
+
+      price: 45000,
+      imageUrl: '/profilho.jpeg',
+  },
+  {
+      id: 5,
+      title: 'Permanent Tattoo Charment Pen',
+      price: 17000,
+      imageUrl: '/charment.jpeg',
+  },
+  {
+      id: 6,
+      title: 'Glutathione injections Glutax 2000',
+    
+      price: 23000,
+      imageUrl: '/glutax2000.jpeg',
+  },
+  {
+      id: 7,
+      title: 'MesoGun',
+    
+      price: 20000,
+      imageUrl: '/meso.jpeg',
+  },
+  {
+      id: 8,
+      title: 'J cain Numbing Jar',
+    
+      price: 10000,
+      imageUrl: '/jcain.jpeg',
+  },
+  {
+      id: 9,
+      title: 'Korean Hydrafacial serums',
+    
+      price: 7000,
+      imageUrl: './hydraserum.jpeg',
+  },
+    // Add more listings as needed...
+
+    // Example listings
+    {
+      id: 10,
+      title: 'Korean Botox Botulax',
+      price: 12000,
+      imageUrl: 'botulax.jpeg',
     },
     {
-        id: 4,
-        title: 'Profhilo Injection',
-  
-        price: 45000,
-        imageUrl: '/profilho.jpeg',
-    },
-    {
-        id: 5,
-        title: 'Permanent Tattoo Charment Pen',
-        price: 17000,
-        imageUrl: '/charment.jpeg',
-    },
-    {
-        id: 6,
-        title: 'Glutathione injections Glutax 2000',
-      
-        price: 23000,
-        imageUrl: '/glutax2000.jpeg',
-    },
-    {
-        id: 7,
-        title: 'MesoGun',
-      
-        price: 20000,
-        imageUrl: '/meso.jpeg',
-    },
-    {
-        id: 8,
-        title: 'J cain Numbing Jar',
-      
-        price: 10000,
-        imageUrl: '/jcain.jpeg',
-    },
-    {
-        id: 9,
-        title: 'Korean Hydrafacial serums',
-      
-        price: 7000,
-        imageUrl: './hydraserum.jpeg',
-    },
-    {
-        id: 10,
-        title: 'Korean Botox Botulax',
-      
-        price: 12000,
-        imageUrl: 'botulax.jpeg',
-    },
-    {
-        id: 11,
-        title: 'Dr Pen A6',
-      
-        price: 16000,
-        imageUrl: '/a6pen.jpeg',
+      id: 11,
+      title: 'Dr Pen A6',
+      price: 16000,
+      imageUrl: '/a6pen.jpeg',
     },
   ];
 
   return (
-    < div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
+    
+    <div  className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover " >
       <div className="h-screen bg-bgprod bg-no-repeat w-screen bg-cover p-4">
         <div className='flex'>
           <div className="flex justify-center opacity-80 pl-72 w-screen gap-x-6">
@@ -186,7 +194,7 @@ export default function Product() {
         </div>
       </div>
 
-      <div className="bg-slate-200 justify-end pl-40 pr-5">
+      <div ref={ref} className="bg-slate-200 justify-end pl-40 pr-5">
         <div>
           <h1 className="font-cursive text-6xl text-center text-black font-extrabold mt-5 pl-5 mb-3 bg-slate-200">Products</h1>
         </div>
@@ -200,4 +208,6 @@ export default function Product() {
       </div>
     </div>
   );
-}
+});
+
+export default Product;

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
-const AI = () => {
+const Ai = React.forwardRef((props, ref) => {
   return (
-    <div ref={AI}>
+    <div ref={ref} >
       <section className="bg-gray-500 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen flex flex-col justify-start items-center py-10">
-        <h1 className="font-cursive text-6xl text-center text-white font-extrabold pl-32 mb-8">AI RECOGNITION</h1>
+        <h1  className="font-cursive text-6xl text-center text-white font-extrabold pl-32 mb-8">AI RECOGNITION</h1>
         <div className="text-center pl-32 text-lg mx-auto text-white font-bold font-cursive mt-20">
           AI recognition, also known as artificial intelligence recognition, is a technology that enables machines to identify and classify objects.
           <br />AI recognition is advancing rapidly, revolutionizing industries such as healthcare, automotive, and security.
@@ -16,6 +16,6 @@ const AI = () => {
       </section>
     </div>
   );
-};
+});
 
-export default AI;
+export default Ai;
