@@ -119,18 +119,17 @@ export default function Product() {
         },
     ];
     const handleSignupClick = () => {
-        window.location.href = '/Signup/signup';
+        window.location.href = 'http://192.168.18.100:3000/signup'
     };
     const handleLoginClick = () => {
-        window.location.href = '/Login/login';
+        window.location.href = 'http://192.168.18.100:3000/';
     };
 
     return (
         <div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
-            <div className="h-screen bg-bgprod bg-no-repeat w-screen bg-cover p-4">
+            <div className="h-screen bg-bgprod bg-no-repeat w-screen bg-cover p-4 ">
                 <div className='flex'>
                     <div className="flex justify-center opacity-80 pl-72 w-screen gap-x-6">
-                        {/* Search Bar with Image */}
                         <div className="relative mt-4 text-black">
                             <input
                                 type="text"
@@ -145,7 +144,6 @@ export default function Product() {
                                 />
                             </div>
                         </div>
-                        {/* Sort by Dropdown */}
                         <div className="relative mt-4 ">
                             <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                                 <img
@@ -187,7 +185,7 @@ export default function Product() {
                     </div>
                 </div>
 
-                <div className="text-center text-5xl text-white font-bold font-cursive mt-10 ml-32">
+                <div className="text-center text-5xl text-white font-bold font-cursive mt-10 pl-32">
                     Aesthetic Skin <br />
                 </div>
             </div>
