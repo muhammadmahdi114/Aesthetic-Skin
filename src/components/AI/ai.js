@@ -13,12 +13,8 @@ export default function AI() {
                 </div>
                 <button
                     onClick={handleDiveInClick}
-<<<<<<< HEAD
-                    className="bg-blue-500 hover:bg-blue-700 text-[#e2e8f0] font-bold py-5 px-12 rounded-full mt-32">
-=======
                     className="bg-blue-500 hover:bg-blue-700 text-[#e2e8f0] font-bold py-5 px-12 rounded-full mt-32 relative"
                 >
->>>>>>> parent of 1693abb47 (Three JS in same Repo)
                     Click to DIVE IN
                 </button>
             </section>

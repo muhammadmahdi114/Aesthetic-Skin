@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const ListingCard = ({ title, location, price, imageUrl }) => {
     const [isHovered, setHovered] = useState(false);
@@ -41,6 +42,7 @@ const ListingCard = ({ title, location, price, imageUrl }) => {
 };
 
 export default function Product() {
+    const router = useRouter();
     const listings = [
         {
             id: 1,
@@ -119,11 +121,16 @@ export default function Product() {
         },
     ];
     const handleSignupClick = () => {
-        window.location.href = 'http://192.168.18.100:3000/signup'
+        window.location.href = 'http://localhost:3003/signup'
     };
     const handleLoginClick = () => {
-        window.location.href = 'http://192.168.18.100:3000/';
+        window.location.href = 'http://localhost:3003';
     };
+
+    const loginSucParam = router.query.loginSuc;
+    const emailParam = router.query.email;
+    console.log("Login:", loginSucParam)
+    console.log("Email:", emailParam)
 
     return (
         <div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
@@ -162,26 +169,35 @@ export default function Product() {
                         </div>
                     </div>
                     <div className='flex gap-x-3 bg-white w-56 h-10 justify-center items-center mt-4 opacity-80 rounded-2xl'>
-                        <div className='text-black flex items-end pr-6'>
-                            <button type='/' className='flex items-center' onClick={handleLoginClick}>
-                                <img
-                                    src="/login.png"
-                                    alt="Login Icon"
-                                    className="w-6 h-6 border-black"
-                                />
-                                &nbsp;Login
-                            </button>
-                        </div>
-                        <div className='text-black gap-x-2 flex items-end'>
-                            <button type='/' className='flex items-center' onClick={handleSignupClick}>
-                                <img
-                                    src="/signup.png"
-                                    alt="Signup Icon"
-                                    className="w-6 h-6 border-black"
-                                />
-                                &nbsp;Signup
-                            </button>
-                        </div>
+                        {loginSucParam === 'true' ? (
+                            <div>
+                                <span className='text-black'>{emailParam}</span>
+                            </div>
+                        ) : (
+                            <div className='flex'>
+                                <div className='text-black flex items-end pr-6'>
+                                    <button type='/' className='flex items-center' onClick={handleLoginClick}>
+                                        <img
+                                            src="/login.png"
+                                            alt="Login Icon"
+                                            className="w-6 h-6 border-black"
+                                        />
+                                        &nbsp;Login
+                                    </button>
+                                </div>
+                                <div className='text-black gap-x-2 flex items-end'>
+                                    <button type='/' className='flex items-center' onClick={handleSignupClick}>
+                                        <img
+                                            src="/signup.png"
+                                            alt="Signup Icon"
+                                            className="w-6 h-6 border-black"
+                                        />
+                                        &nbsp;Signup
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
                     </div>
                 </div>
 
