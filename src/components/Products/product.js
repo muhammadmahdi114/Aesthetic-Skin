@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -41,8 +43,7 @@ const ListingCard = ({ title, location, price, imageUrl }) => {
     );
 };
 
-export default function Product() {
-    const router = useRouter();
+const Product = React.forwardRef((props, ref) => {
     const listings = [
         {
             id: 1,
@@ -54,12 +55,14 @@ export default function Product() {
             id: 2,
             title: 'Glutathione injections Glutax 75GX',
 
+
             price: 25000,
             imageUrl: '/glutax75.jpeg',
         },
         {
             id: 3,
             title: 'Glutathione injections Tationil',
+
 
             price: 18000,
             imageUrl: '/tationilinj.jpeg',
@@ -206,7 +209,7 @@ export default function Product() {
                 </div>
             </div>
 
-            <div className="bg-slate-200 justify-end pl-40 pr-5">
+            <div ref={ref} className="bg-slate-200 justify-end pl-40 pr-5">
                 <div>
                     <h1 className="font-cursive text-6xl text-center text-black font-extrabold mt-5 pl-5 mb-3 bg-slate-200">Products</h1>
                 </div>

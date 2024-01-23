@@ -43,6 +43,7 @@ const Footer = () => {
                 alt={link.alt}
                 className={`hover:opacity-80 transition-opacity duration-300 ${link.height}`}
               />
+            
             </a>
           ))}
         </div>

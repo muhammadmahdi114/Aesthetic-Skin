@@ -1,10 +1,13 @@
-export default function AI() {
-    const handleDiveInClick = () => {
+
+import React, { useState, useRef } from 'react';
+
+const Ai = React.forwardRef((props, ref) => {
+  const handleDiveInClick = () => {
         window.location.href = 'http://localhost:3002/'
     };
-
-    return (
-        <div className="pl-32">
+  return (
+    <div ref={ref} >
+      <div className="pl-32">
             <section className="bg-gray-500 bg-no-repeat overflow-hidden bg-cover w-full flex flex-col justify-start items-center py-20">
                 <h1 className="font-cursive text-6xl text-center text-white font-extrabold ">AI RECOGNITION</h1>
                 <div className="text-center text-xl mx-auto text-white font-bold font-cursive mt-44">
@@ -19,5 +22,8 @@ export default function AI() {
                 </button>
             </section>
         </div>
-    );
-}
+    </div>
+  );
+});
+
+export default Ai;
