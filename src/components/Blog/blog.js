@@ -1,4 +1,6 @@
+
 import React, { useState, useRef } from 'react';
+
 
 const Blog = React.forwardRef((props, ref) => {
   return (

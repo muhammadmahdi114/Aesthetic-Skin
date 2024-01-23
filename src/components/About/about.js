@@ -2,8 +2,10 @@ import React from 'react';
 
 const About = React.forwardRef((props, ref) => {
   return (
+
     <div ref={ref}>
       <section className="bg-gray-500 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen flex flex-col justify-start items-center py-10">
+
         <h1 className="font-cursive text-6xl text-center font-extrabold pl-8 md:pl-32 lg:pl-32">ABOUT</h1>
         <div className="text-center pl-8 ml-32 text-lg mx-auto text-white font-bold font-cursive mt-28">
           In the era of globalization, increased consumer purchasing power, and a growing consciousness of hygiene and beauty,
