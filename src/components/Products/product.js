@@ -129,7 +129,7 @@ const Product = React.forwardRef((props, ref) => {
     const handleLoginClick = () => {
         window.location.href = 'http://localhost:3003';
     };
-
+    const router = useRouter();
     const loginSucParam = router.query.loginSuc;
     const emailParam = router.query.email;
     console.log("Login:", loginSucParam)
@@ -223,4 +223,5 @@ const Product = React.forwardRef((props, ref) => {
             </div>
         </div>
     );
-}
+})
+export default Product;     
