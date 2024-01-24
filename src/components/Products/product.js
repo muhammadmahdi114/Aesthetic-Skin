@@ -215,7 +215,7 @@ const Product = React.forwardRef((props, ref) => {
                 </div>
                 <div className="container py-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 ">
-                        {listings.map((listing) => (
+                        {   listings.map((listing) => (
                             <ListingCard key={listing.id} {...listing} />
                         ))}
                     </div>

@@ -64,6 +64,9 @@ const Products = {
 
 
 const Recommendations = () => {
+    const handleLogoClick = () => {
+        window.location.href = 'http://localhost:3000/'
+    };
     const { state } = useLocation();
     const { data } = state;
     const { general, makeup } = data;
@@ -74,6 +77,7 @@ const Recommendations = () => {
                     src='/logo.png'
                     alt='Logo'
                     style={{ width: "150px", height: "150px", position: "absolute", top: "0", left: "0" }}
+                    onClick={handleLogoClick}
                 />
                 <Grid>
                     Products Recommendation
