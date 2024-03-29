@@ -24,10 +24,10 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white p-8">
+    <footer className="bg-gray-800 font-cursive text-white p-8">
       <div className="container mx-auto flex flex-col items-center">
         <p className="text-lg ml-32">&copy; 2023 Aesthetic Skin</p>
-        <p className="text-sm mb-4 ml-32">123 Skin Avenue, Cityville</p>
+        <p className="text-sm mb-4 ml-32">Islamabad, Pakistan</p>
 
         {/* Image Links */}
         <div className='flex justify-center gap-8 pt-5 ml-32'>

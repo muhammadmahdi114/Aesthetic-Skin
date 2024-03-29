@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 
 const Ai = React.forwardRef((props, ref) => {
   const handleDiveInClick = () => {
-        window.location.href = 'http://localhost:3002/'
+        window.location.href = 'http://localhost:3001/'
     };
   return (
     <div ref={ref} >
