@@ -36,12 +36,12 @@ const ListingCard = ({ id, title, location, price, imageUrl, addToWishlist, addT
                         <h2 className="text-black text-2xl font-semibold mb-4">{title}</h2>
                         <p className="text-black mb-4">{location}</p>
                         <p className="text-black font-semibold text-xl mt-2 text-gray-">Pkr : {price} </p>
-                        <button onClick={() => addToWishlist({ id, title })} className="bg-white text-gray-800 p-1 rounded mr-2">
+                        <button onClick={() => addToWishlist({ id, title, price })} className="bg-white text-gray-800 p-1 rounded mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636v1.368a4.5 4.5 0 006.364 6.364z" />
                             </svg>
                         </button>
-                        <button onClick={() => addToCart({ id, title })} className="bg-blue-500 text-white p-1 rounded">
+                        <button onClick={() => addToCart({ id, title, price })} className="bg-blue-500 text-white p-1 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-3 1a3 3 0 116 0 3 3 0 01-6 0z" />
                             </svg>
@@ -170,7 +170,6 @@ const Product = React.forwardRef((props, ref) => {
             setShowNotification(true);
         }
         setShowNotification(true);
-        console.log("WHISHLIST++", wishlist, product.id)
     };
 
     const addToCart = (product) => {
@@ -198,7 +197,6 @@ const Product = React.forwardRef((props, ref) => {
         if (comp) {
             setComp(false);
         }
-        console.log(comp)
     }
 
     const handleProductSelect1 = (event) => {
@@ -224,6 +222,14 @@ const Product = React.forwardRef((props, ref) => {
         }
         setShowNotification(true);
     };
+
+    const handleCheckout = () => {
+        if (cart.length === 0) {
+            alert("Cart is empty. Add items to the cart first.")
+        } else {
+            console.log("Checkout Pressed");
+        }
+    }
 
 
 
@@ -459,52 +465,82 @@ const Product = React.forwardRef((props, ref) => {
                         </div>
                     </div>
                 </div>
-                <div>
-                    {showWishlist && (
-                        <div className="fixed inset-0 bg-white text-black bg-opacity-50 z-10">
-                            <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-20">
-                                <h2 className="text-lg font-semibold mb-2">Wishlist</h2>
-                                <il>
-                                    {wishlist.map((product) => (
-                                        <li key={product.id} className="flex justify-between items-center mt-2">
-                                            <span>{product.title}</span>
-                                            <button onClick={() => removeProduct(product.id, product.title, wishlist)} className="bg-red-500 text-white p-1 rounded">
-                                                Remove
-                                            </button>
-                                        </li>
-                                    ))}
-                                </il>
-                                <button onClick={() => setShowWishlist(false)} className="bg-blue-500 text-white p-1 rounded w-full mt-3">
-                                    Close
-                                </button>
+                {showCart && (
+                    <div className="fixed inset-0 bg-white text-black bg-opacity-50 z-10">
+                        <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-20">
+                            <div className="flex justify-between items-center mb-2">
+                                <h2 className="text-lg font-semibold">Cart</h2>
+                                <svg onClick={() => setShowCart(false)} className="bg-blue-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
                             </div>
-                        </div>
-                    )}
-                </div>
-                <div>
-                    {showCart && (
-                        <div className="fixed inset-0 bg-white text-black bg-opacity-50 z-10">
-                            <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-20">
-                                <h2 className="text-lg font-semibold mb-2">Cart</h2>
-                                <il>
-                                    {cart.map((product) => (
-                                        <li key={product.id} className="flex justify-between items-center mt-2">{product.title}
-                                            <button onClick={() => removeProduct(product.id, product.title, cart)} className="bg-red-500 text-white p-1 rounded">
-                                                Remove
-                                            </button>
-
-                                        </li>
-
-                                    ))}
-
-                                </il>
-                                <button onClick={() => setShowCart(false)} className="bg-blue-500 text-white p-1 rounded w-full mt-3">
-                                    Close
-                                </button>
+                            <div className='flex justify-between w-full'>
+                                <h3 className="text-lg font-semibold mb-2">Product</h3>
+                                <div className="text-lg font-semibold mb-2 mr-12 flex items-center justify-end">
+                                    Price
+                                </div>
                             </div>
+                            <ul>
+                                {cart.map((product) => (
+                                    <li key={product.id} className="flex justify-between items-center mt-2 text-black">
+                                        <span>{product.title}</span>
+                                        <div className="flex items-center justify-end">
+                                            <span className='mr-4'>{product.price}</span>
+                                            <button onClick={() => removeProduct(product.id, product.title, cart)} className="bg-red-500 text-white p-1 rounded h-7 w-6 ml-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                            <button onClick={handleCheckout} className='w-full bg-green-500 text-white rounded-lg mt-3 h-8'>Checkout</button>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
+
+                {showWishlist && (
+                    <div className="fixed inset-0 bg-white text-black bg-opacity-50 z-10">
+                        <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-20">
+                            <div className="flex justify-between items-center mb-2">
+                                <h2 className="text-lg font-semibold">Wishlist</h2>
+                                <svg onClick={() => setShowWishlist(false)} className="bg-blue-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </div>
+                            <div className='flex justify-between w-full'>
+                                <h3 className="text-lg font-semibold mb-2">Product</h3>
+                                <div className="text-lg font-semibold mb-2 mr-12 flex items-center justify-end">
+                                    Price
+                                </div>
+                            </div>
+                            <ul>
+                                {wishlist.map((product) => (
+                                    <li key={product.id} className="flex justify-between items-center mt-2 text-black">
+                                        <span>{product.title}</span>
+                                        <div className="flex items-center justify-end">
+                                            <span className='mr-4'>{product.price}</span>
+                                            <button onClick={() => removeProduct(product.id, product.title, wishlist)} className="bg-red-500 text-white p-1 rounded h-7 w-6 ml-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                )}
                 {comp ? (
                     <div className='text-black mx-60 mt-10 mb-10 justify-center flex'>
                         <div>
