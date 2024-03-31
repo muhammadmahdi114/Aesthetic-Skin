@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Notification from '../Notification/notification';
 
-const ListingCard = ({ title, location, price, imageUrl }) => {
-
+const ListingCard = ({ id, title, location, price, imageUrl, addToWishlist, addToCart, removeProduct, list }) => {
     const [isHovered, setHovered] = useState(false);
 
     const handleMouseEnter = () => {
@@ -36,7 +36,26 @@ const ListingCard = ({ title, location, price, imageUrl }) => {
                         <h2 className="text-black text-2xl font-semibold mb-4">{title}</h2>
                         <p className="text-black mb-4">{location}</p>
                         <p className="text-black font-semibold text-xl mt-2 text-gray-">Pkr : {price} </p>
-                        <button className="bg-blue-500 text-white mt-2 px-4 py-2 rounded">Details</button>
+                        <button onClick={() => addToWishlist({ id, title })} className="bg-white text-gray-800 p-1 rounded mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636v1.368a4.5 4.5 0 006.364 6.364z" />
+                            </svg>
+                        </button>
+                        <button onClick={() => addToCart({ id, title })} className="bg-blue-500 text-white p-1 rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-3 1a3 3 0 116 0 3 3 0 01-6 0z" />
+                            </svg>
+                        </button>
+                        {list === 'wishlist' && (
+                            <button onClick={() => removeProduct(id, 'wishlist')} className="bg-red-500 text-white p-1 rounded">
+                                Remove from Wishlist
+                            </button>
+                        )}
+                        {list === 'cart' && (
+                            <button onClick={() => removeProduct(id, 'cart')} className="bg-red-500 text-white p-1 rounded">
+                                Remove from Cart
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
@@ -48,6 +67,14 @@ const Product = React.forwardRef((props, ref) => {
     const [comp, setComp] = useState([false]);
     const [selectedProduct1, setSelectedProduct1] = useState(null);
     const [selectedProduct2, setSelectedProduct2] = useState(null);
+    const [wishlist, setWishlist] = useState([]);
+    const [cart, setCart] = useState([]);
+    const [showWishlist, setShowWishlist] = useState(false);
+    const [showCart, setShowCart] = useState(false);
+    const [notificationMessage, setNotificationMessage] = React.useState('');
+    const [notificationType, setNotificationType] = React.useState('');
+    const [showNotification, setShowNotification] = React.useState(false);
+
 
     const listings = [
         {
@@ -135,6 +162,37 @@ const Product = React.forwardRef((props, ref) => {
         window.location.href = 'http://localhost:3002';
     };
 
+    const addToWishlist = (product) => {
+        if (!wishlist.some(item => item.id === product.id)) {
+            setWishlist([...wishlist, product]);
+            setNotificationMessage(`${product.title} has been added to the wishlist.`);
+            setNotificationType('Green')
+            setShowNotification(true);
+        }
+        setShowNotification(true);
+        console.log("WHISHLIST++", wishlist, product.id)
+    };
+
+    const addToCart = (product) => {
+        if (!cart.some(item => item.id === product.id)) {
+            setCart([...cart, product]);
+            setNotificationMessage(`${product.title} has been added to the cart.`);
+            setNotificationType('Green')
+        }
+        setShowNotification(true);
+    };
+
+    const hideNotification = () => {
+        setShowNotification(false);
+    };
+
+    React.useEffect(() => {
+        if (showNotification) {
+            const timer = setTimeout(() => hideNotification(), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [showNotification]);
+
     const handleCompare = () => {
         setComp(true);
         if (comp) {
@@ -152,6 +210,22 @@ const Product = React.forwardRef((props, ref) => {
         const selectedValue = event.target.value;
         setSelectedProduct2(selectedValue);
     };
+
+    const removeProduct = (productId, productTitle, list) => {
+        const updatedList = list.filter((product) => product.id !== productId);
+        if (list === wishlist) {
+            setWishlist(updatedList);
+            setNotificationMessage(`${productTitle} has been removed from the Wishlist.`);
+            setNotificationType('Red')
+        } else if (list === cart) {
+            setCart(updatedList);
+            setNotificationMessage(`${productTitle} has been removed from the Cart.`);
+            setNotificationType('Red')
+        }
+        setShowNotification(true);
+    };
+
+
 
     const renderFeatures1 = () => {
         const productFeatures1 = {
@@ -211,20 +285,22 @@ const Product = React.forwardRef((props, ref) => {
                 imageUrl: '/a6pen.jpeg'
             }
         };
+
         const featuresData1 = productFeatures1[selectedProduct1];
         if (!featuresData1) return null; // Handle case where selected product is not found
 
-        const { features, price, imageUrl } = featuresData1;
+        const { id, title, features, price, imageUrl } = featuresData1;
 
         return (
             <div>
-                <img src={imageUrl} className='w-60 h-60' alt="Product" />
-                <ul>
+                <img src={imageUrl} className='w-60 h-60' alt={title} />
+                <ol>
                     {features.map((feature, index) => (
                         <li key={index}>{feature}</li>
                     ))}
-                </ul>
+                </ol>
                 <p>{price}</p>
+                <p>{title}</p>
             </div>
         );
     };
@@ -290,17 +366,18 @@ const Product = React.forwardRef((props, ref) => {
         const featuresData2 = productFeatures2[selectedProduct2];
         if (!featuresData2) return null; // Handle case where selected product is not found
 
-        const { features, price, imageUrl } = featuresData2;
+        const { id, title, features, price, imageUrl } = featuresData2;
 
         return (
             <div>
-                <img src={imageUrl} className='w-60 h-60' alt="Product" />
-                <ul>
+                <img src={imageUrl} className='w-60 h-60' alt={title} />
+                <ol>
                     {features.map((feature, index) => (
                         <li key={index}>{feature}</li>
                     ))}
-                </ul>
+                </ol>
                 <p>{price}</p>
+                <p>{title}</p>
             </div>
         );
     };
@@ -359,6 +436,12 @@ const Product = React.forwardRef((props, ref) => {
                     <div className="flex gap-x-6 text-black">
 
                         <button onClick={handleCompare} className="p-2 rounded text-center border-white mt-4 bg-white w-60">Compare Products</button>
+                        <button onClick={() => setShowWishlist(true)} className="p-2 rounded text-center border-white mt-4 bg-white w-60">
+                            Wishlist
+                        </button>
+                        <button onClick={() => setShowCart(true)} className="p-2 rounded text-center border-white mt-4 bg-white w-60">
+                            Cart
+                        </button>
 
                         <div className="relative mt-4">
                             <input
@@ -375,6 +458,52 @@ const Product = React.forwardRef((props, ref) => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    {showWishlist && (
+                        <div className="fixed inset-0 bg-white text-black bg-opacity-50 z-10">
+                            <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-20">
+                                <h2 className="text-lg font-semibold mb-2">Wishlist</h2>
+                                <il>
+                                    {wishlist.map((product) => (
+                                        <li key={product.id} className="flex justify-between items-center mt-2">
+                                            <span>{product.title}</span>
+                                            <button onClick={() => removeProduct(product.id, product.title, wishlist)} className="bg-red-500 text-white p-1 rounded">
+                                                Remove
+                                            </button>
+                                        </li>
+                                    ))}
+                                </il>
+                                <button onClick={() => setShowWishlist(false)} className="bg-blue-500 text-white p-1 rounded w-full mt-3">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div>
+                    {showCart && (
+                        <div className="fixed inset-0 bg-white text-black bg-opacity-50 z-10">
+                            <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-20">
+                                <h2 className="text-lg font-semibold mb-2">Cart</h2>
+                                <il>
+                                    {cart.map((product) => (
+                                        <li key={product.id} className="flex justify-between items-center mt-2">{product.title}
+                                            <button onClick={() => removeProduct(product.id, product.title, cart)} className="bg-red-500 text-white p-1 rounded">
+                                                Remove
+                                            </button>
+
+                                        </li>
+
+                                    ))}
+
+                                </il>
+                                <button onClick={() => setShowCart(false)} className="bg-blue-500 text-white p-1 rounded w-full mt-3">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
                 {comp ? (
                     <div className='text-black mx-60 mt-10 mb-10 justify-center flex'>
@@ -427,9 +556,22 @@ const Product = React.forwardRef((props, ref) => {
                     </div>
                 ) : (
                     <div className="container mt-6 py-2">
+                        {showNotification && (
+                            <Notification message={notificationMessage} type={notificationType} />
+                        )}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 ">
                             {listings.map((listing) => (
-                                <ListingCard key={listing.id} {...listing} />
+                                <ListingCard
+                                    key={listing.id}
+                                    id={listing.id}
+                                    title={listing.title}
+                                    location={listing.location}
+                                    price={listing.price}
+                                    imageUrl={listing.imageUrl}
+                                    addToWishlist={addToWishlist}
+                                    addToCart={addToCart}
+                                    removeProduct={removeProduct}
+                                />
                             ))}
                         </div>
                     </div>
