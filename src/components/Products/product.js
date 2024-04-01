@@ -1,67 +1,8 @@
-
-
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Notification from '../Notification/notification';
-
-const ListingCard = ({ id, title, location, price, imageUrl, addToWishlist, addToCart, removeProduct, list }) => {
-    const [isHovered, setHovered] = useState(false);
-
-    const handleMouseEnter = () => {
-        setHovered(true);
-    };
-
-    const handleMouseLeave = () => {
-        setHovered(false);
-    };
-
-    return (
-        <div
-            className="relative group overflow-hidden bg-white p-4 rounded-md shadow-md transition-transform transform hover:scale-105"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-        >
-            <div className="rounded overflow-hidden">
-                <img src={imageUrl} alt={title} className="h-56 w-64 rounded-2xl" />
-                <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2 text-gray-700">{title}</div>
-                    <p className="text-gray-500 text-base">{location}</p>
-                    <p className="text-black font-semibold text-xl mt-2 text-gray-">Pkr : {price} </p>
-                </div>
-            </div>
-
-            {isHovered && (
-                <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center text-center items-center">
-                    <div className="bg-white p-8 rounded shadow-lg">
-                        <h2 className="text-black text-2xl font-semibold mb-4">{title}</h2>
-                        <p className="text-black mb-4">{location}</p>
-                        <p className="text-black font-semibold text-xl mt-2 text-gray-">Pkr : {price} </p>
-                        <button onClick={() => addToWishlist({ id, title, price })} className="bg-white text-gray-800 p-1 rounded mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636v1.368a4.5 4.5 0 006.364 6.364z" />
-                            </svg>
-                        </button>
-                        <button onClick={() => addToCart({ id, title, price })} className="bg-blue-500 text-white p-1 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-3 1a3 3 0 116 0 3 3 0 01-6 0z" />
-                            </svg>
-                        </button>
-                        {list === 'wishlist' && (
-                            <button onClick={() => removeProduct(id, 'wishlist')} className="bg-red-500 text-white p-1 rounded">
-                                Remove from Wishlist
-                            </button>
-                        )}
-                        {list === 'cart' && (
-                            <button onClick={() => removeProduct(id, 'cart')} className="bg-red-500 text-white p-1 rounded">
-                                Remove from Cart
-                            </button>
-                        )}
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-};
+import ListingCard from '../ListingCard/listingcard';
 
 const Product = React.forwardRef((props, ref) => {
     const [comp, setComp] = useState([false]);
@@ -75,7 +16,6 @@ const Product = React.forwardRef((props, ref) => {
     const [notificationType, setNotificationType] = React.useState('');
     const [showNotification, setShowNotification] = React.useState(false);
 
-
     const listings = [
         {
             id: 1,
@@ -86,23 +26,18 @@ const Product = React.forwardRef((props, ref) => {
         {
             id: 2,
             title: 'Glutathione injections Glutax 75GX',
-
-
             price: 25000,
             imageUrl: '/glutax75.jpeg',
         },
         {
             id: 3,
             title: 'Glutathione injections Tationil',
-
-
             price: 18000,
             imageUrl: '/tationilinj.jpeg',
         },
         {
             id: 4,
             title: 'Profhilo Injection',
-
             price: 45000,
             imageUrl: '/profilho.jpeg',
         },
@@ -115,42 +50,36 @@ const Product = React.forwardRef((props, ref) => {
         {
             id: 6,
             title: 'Glutathione injections Glutax 2000',
-
             price: 23000,
             imageUrl: '/glutax2000.jpeg',
         },
         {
             id: 7,
             title: 'MesoGun',
-
             price: 20000,
             imageUrl: '/meso.jpeg',
         },
         {
             id: 8,
             title: 'J cain Numbing Jar',
-
             price: 10000,
             imageUrl: '/jcain.jpeg',
         },
         {
             id: 9,
             title: 'Korean Hydrafacial serums',
-
             price: 7000,
             imageUrl: './hydraserum.jpeg',
         },
         {
             id: 10,
             title: 'Korean Botox Botulax',
-
             price: 12000,
             imageUrl: 'botulax.jpeg',
         },
         {
             id: 11,
             title: 'Dr Pen A6',
-
             price: 16000,
             imageUrl: '/a6pen.jpeg',
         },
@@ -174,7 +103,7 @@ const Product = React.forwardRef((props, ref) => {
 
     const addToCart = (product) => {
         if (!cart.some(item => item.id === product.id)) {
-            setCart([...cart, product]);
+            setCart([...cart, { ...product, imageUrl: product.imageUrl }]);
             setNotificationMessage(`${product.title} has been added to the cart.`);
             setNotificationType('Green')
         }
@@ -228,10 +157,13 @@ const Product = React.forwardRef((props, ref) => {
             alert("Cart is empty. Add items to the cart first.")
         } else {
             console.log("Checkout Pressed");
+            router.push('/checkout');
         }
     }
 
-
+    const handleLogout = () => {
+        window.location.href = 'http://localhost:3000'
+    }
 
     const renderFeatures1 = () => {
         const productFeatures1 = {
@@ -293,10 +225,8 @@ const Product = React.forwardRef((props, ref) => {
         };
 
         const featuresData1 = productFeatures1[selectedProduct1];
-        if (!featuresData1) return null; // Handle case where selected product is not found
-
+        if (!featuresData1) return null;
         const { id, title, features, price, imageUrl } = featuresData1;
-
         return (
             <div>
                 <img src={imageUrl} className='w-60 h-60' alt={title} />
@@ -370,10 +300,8 @@ const Product = React.forwardRef((props, ref) => {
             }
         };
         const featuresData2 = productFeatures2[selectedProduct2];
-        if (!featuresData2) return null; // Handle case where selected product is not found
-
+        if (!featuresData2) return null;
         const { id, title, features, price, imageUrl } = featuresData2;
-
         return (
             <div>
                 <img src={imageUrl} className='w-60 h-60' alt={title} />
@@ -403,8 +331,11 @@ const Product = React.forwardRef((props, ref) => {
                 <div className='flex justify-end w-full -mt-12'>
                     <div className='flex gap-x-3 bg-white w-56 h-10 justify-center items-center opacity-80 rounded-2xl'>
                         {loginSucParam ? (
-                            <div>
-                                <span className='text-black'>{emailParam}</span>
+                            <div className='text-black flex gap-x-5'>
+                                <span>{emailParam}</span>
+                                <svg onClick={handleLogout} class="w-6 h-6white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+                                </svg>
                             </div>
                         ) : (
                             <div className='flex'>
@@ -433,7 +364,6 @@ const Product = React.forwardRef((props, ref) => {
                     </div>
                 </div>
             </div>
-
             <div ref={ref} className="bg-slate-200 justify-end pl-40 pr-5">
                 <div>
                     <h1 className="font-cursive text-6xl text-center text-black font-extrabold mt-5 pl-5 mb-3 bg-slate-200">Products</h1>
@@ -448,7 +378,6 @@ const Product = React.forwardRef((props, ref) => {
                         <button onClick={() => setShowCart(true)} className="p-2 rounded text-center border-white mt-4 bg-white w-60">
                             Cart
                         </button>
-
                         <div className="relative mt-4">
                             <input
                                 type="text"
@@ -470,7 +399,7 @@ const Product = React.forwardRef((props, ref) => {
                         <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-20">
                             <div className="flex justify-between items-center mb-2">
                                 <h2 className="text-lg font-semibold">Cart</h2>
-                                <svg onClick={() => setShowCart(false)} className="bg-blue-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg onClick={() => setShowCart(false)} className="bg-red-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <line x1="18" y1="6" x2="6" y2="18" />
                                     <line x1="6" y1="6" x2="18" y2="18" />
                                 </svg>
@@ -499,17 +428,21 @@ const Product = React.forwardRef((props, ref) => {
                                     </li>
                                 ))}
                             </ul>
-                            <button onClick={handleCheckout} className='w-full bg-green-500 text-white rounded-lg mt-3 h-8'>Checkout</button>
+                            <Link href={{
+                                pathname: '/checkout',
+                                query: { cart: JSON.stringify(cart) }
+                            }}>
+                                <button className='bg-blue-500 text-white w-full mt-5 h-10 rounded-lg'>Go to Checkout</button>
+                            </Link>                           
                         </div>
                     </div>
                 )}
-
                 {showWishlist && (
                     <div className="fixed inset-0 bg-white text-black bg-opacity-50 z-10">
                         <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-20">
                             <div className="flex justify-between items-center mb-2">
                                 <h2 className="text-lg font-semibold">Wishlist</h2>
-                                <svg onClick={() => setShowWishlist(false)} className="bg-blue-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg onClick={() => setShowWishlist(false)} className="bg-red-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <line x1="18" y1="6" x2="6" y2="18" />
                                     <line x1="6" y1="6" x2="18" y2="18" />
                                 </svg>
