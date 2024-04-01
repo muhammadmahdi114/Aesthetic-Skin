@@ -494,13 +494,13 @@ const Product = React.forwardRef((props, ref) => {
                             </select>
                             {selectedProduct1 && (
                                 <div className="mt-4">
-                                    <h2 className="text-xl font-semibold">Features:</h2>
+                                    <h2 className="text-xl font-semibold  mb-3">Features:</h2>
                                     {renderFeatures1()}
                                 </div>
                             )}
                         </div>
                         <div className='ml-16'>
-                            <a className='text-3xl ml-20'>Product 1</a>
+                            <a className='text-3xl ml-20'>Product 2</a>
                             <select className="p-2 rounded mt-5 border-white text-black bg-white items-center" onChange={handleProductSelect2} value={selectedProduct2}>
                                 <option value="">Select a product</option>
                                 <option id='1' value="glu_miracle">Glutathione injections Miracle White</option>
@@ -517,7 +517,7 @@ const Product = React.forwardRef((props, ref) => {
                             </select>
                             {selectedProduct2 && (
                                 <div className="mt-4">
-                                    <h2 className="text-xl font-semibold">Features:</h2>
+                                    <h2 className="text-xl font-semibold mb-3">Features:</h2>
                                     {renderFeatures2()}
                                 </div>
                             )}

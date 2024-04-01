@@ -8,6 +8,7 @@ const Checkout = () => {
     const parsedCart = cartFromUrl ? JSON.parse(cartFromUrl) : [];
     const [totalAmount, setTotalAmount] = useState(0);
     const [checkoutBtn, setCheckoutBtn] = useState(false);
+    const [confirmAddress, setConfirmAddress] = useState(false);
     const [confirmPayment, setConfirmPayment] = useState(false);
 
     useEffect(() => {
@@ -81,33 +82,51 @@ const Checkout = () => {
                                             <img src={item.imageUrl} alt={item.title} className='w-16 h-16 object-cover' />
 
                                             <span className='w-[400px]'>{item.title}</span>
-                                            <span className='w-[200px]'>PKR: {item.price}</span>
+                                            <span className='w-[200px] ml-16'>PKR: {item.price}</span>
                                         </div>
                                     </div>
                                 ))}
                             </li>
                         </ul>
                         <div className='w-full flex justify-end'>
-                            <span className="mr-60">Total Amount: <b>PKR {totalAmount}</b></span>
+                            <span className="mr-72">Total Amount: <b>PKR {totalAmount}</b></span>
                         </div>
 
                         <div className='w-full flex justify-end mt-7'>
-                            <button onClick={() => setCheckoutBtn(true)} className='mr-60 w-36 h-10 bg-blue-500 text-white rounded-xl'>Checkout</button>
+                            <button onClick={() => setCheckoutBtn(true)} className='mr-80 w-36 h-10 bg-blue-500 text-white rounded-xl'>Checkout</button>
                         </div>
                         {checkoutBtn && (
                             <div className="fixed inset-0 bg-white text-black bg-opacity-70 z-10">
                                 <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-28">
                                     <div className='flex justify-between items-center mb-2'>
-                                        <h2>Enter your Card Details</h2>
+                                        <h2>Enter your Address</h2>
                                         <svg onClick={() => setCheckoutBtn(false)} className="bg-red-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <line x1="18" y1="6" x2="6" y2="18" />
                                             <line x1="6" y1="6" x2="18" y2="18" />
                                         </svg>
                                     </div>
-                                    <input placeholder='Enter Full Name' required type='text' className='w-full h-8 pl-3 mt-7' />
-                                    <input placeholder='Enter Credit Card Number' required type='number' className='w-full h-8 pl-3 mt-5' />
-                                    <input placeholder='Enter CVC' type='number' required className='w-full h-8 pl-3 mt-5' />
-                                    <input placeholder='Enter complete Address (optional)' type='number' className='w-full h-8 pl-3 mt-5 mb-5' />
+                                    <input placeholder='Full Name' required type='text' className='w-full h-8 pl-3 mt-7' />
+                                    <input placeholder='Complete Address' required type='text' className='w-full h-8 pl-3 mt-5' />
+                                    <input placeholder='Phone Number' type='number' required className='w-full h-8 pl-3 mt-5' />
+                                    <input placeholder='Secondary Phone Number (optional)' type='number' className='w-full h-8 pl-3 mt-5 mb-5' />
+                                    <button onClick={() => setConfirmAddress(true)} className='w-full h-10 mt-5 bg-green-500 text-white rounded-xl'>Proceed</button>
+                                </div>
+                            </div>
+                        )}
+                        {confirmAddress && (
+                            <div className="fixed inset-0 bg-white text-black bg-opacity-70 z-10">
+                                <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-28">
+                                    <div className='flex justify-between items-center mb-2'>
+                                        <h2>Enter your Card Details</h2>
+                                        <svg onClick={() => setConfirmAddress(false)} className="bg-red-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <line x1="18" y1="6" x2="6" y2="18" />
+                                            <line x1="6" y1="6" x2="18" y2="18" />
+                                        </svg>
+                                    </div>
+                                    <input placeholder='Full Name' required type='text' className='w-full h-8 pl-3 mt-7' />
+                                    <input placeholder='Card Number' required type='number' className='w-full h-8 pl-3 mt-5' />
+                                    <input placeholder='CVC' type='number' required className='w-full h-8 pl-3 mt-5' />
+                                    <input placeholder='Email (optional)' type='number' className='w-full h-8 pl-3 mt-5 mb-5' />
                                     <span className='ml-3'>The total payable amount is {totalAmount}</span>
                                     <button onClick={() => setConfirmPayment(true)} className='w-full h-10 mt-5 bg-green-500 text-white rounded-xl'>Make Payment</button>
                                 </div>
