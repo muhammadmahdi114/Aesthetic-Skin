@@ -10,6 +10,16 @@ const Checkout = () => {
     const [checkoutBtn, setCheckoutBtn] = useState(false);
     const [confirmAddress, setConfirmAddress] = useState(false);
     const [confirmPayment, setConfirmPayment] = useState(false);
+    const [fullName, setFullName] = useState(null);
+    const [addr, setAddr] = useState(null);
+    const [phnNum, setPhnNum] = useState(null);
+    const [secPhnNum, setSecPhnNum] = useState(null);
+    const [cardName, setCardName] = useState(null);
+    const [cardNumber, setCardNumber] = useState(null);
+    const [cardCvc, setCardCvc] = useState(null);
+    const [email, setEmail] = useState(null);
+
+
 
     useEffect(() => {
         let total = 0;
@@ -23,7 +33,41 @@ const Checkout = () => {
         window.location.href = 'http://localhost:3000';
     };
 
-    const makePayment = async () => {
+    const handleProceed = (event) => {
+        event.preventDefault();
+
+        if (!fullName) {
+            alert("Please enter the name.");
+        } else if (!addr) {
+            alert("Please enter the address.");
+        } else if (!phnNum) {
+            alert("Please enter the Phone Number.");
+        } else {
+            setCheckoutBtn(false);
+            setConfirmAddress(true);
+        }
+    };
+
+    const handleMakePayment = (event) => {
+        event.preventDefault();
+
+        if (!cardName) {
+            alert("Please enter the name.");
+        } else if (!cardNumber) {
+            alert("Please enter the Card Number.");
+        } else if (!cardCvc) {
+            alert("Please enter the CVC.");
+        } else {
+            setConfirmPayment(true);
+            setConfirmAddress(false);
+            setTimeout(() => {
+                window.print();
+            }, 1000);
+        }
+
+    }
+
+    const makepayment = async () => {
 
         if (!checkoutBtn) {
             setCheckoutBtn(true);
@@ -96,8 +140,8 @@ const Checkout = () => {
                             <button onClick={() => setCheckoutBtn(true)} className='mr-80 w-36 h-10 bg-blue-500 text-white rounded-xl'>Checkout</button>
                         </div>
                         {checkoutBtn && (
-                            <div className="fixed inset-0 bg-white text-black bg-opacity-70 z-10">
-                                <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-28">
+                            <div className="fixed inset-0 bg -white text-black bg-opacity-70 z-10">
+                                <form className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-28">
                                     <div className='flex justify-between items-center mb-2'>
                                         <h2>Enter your Address</h2>
                                         <svg onClick={() => setCheckoutBtn(false)} className="bg-red-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -105,17 +149,42 @@ const Checkout = () => {
                                             <line x1="6" y1="6" x2="18" y2="18" />
                                         </svg>
                                     </div>
-                                    <input placeholder='Full Name' required type='text' className='w-full h-8 pl-3 mt-7' />
-                                    <input placeholder='Complete Address' required type='text' className='w-full h-8 pl-3 mt-5' />
-                                    <input placeholder='Phone Number' type='number' required className='w-full h-8 pl-3 mt-5' />
-                                    <input placeholder='Secondary Phone Number (optional)' type='number' className='w-full h-8 pl-3 mt-5 mb-5' />
-                                    <button onClick={() => setConfirmAddress(true)} className='w-full h-10 mt-5 bg-green-500 text-white rounded-xl'>Proceed</button>
-                                </div>
+                                    <input
+                                        onChange={(event) => setFullName(event.target.value)}
+                                        placeholder="Full Name"
+                                        type="text"
+                                        className="w-full h-8 pl-3 mt-7"
+                                        value={fullName || ""}
+                                    />
+                                    <input
+                                        onChange={(event) => setAddr(event.target.value)}
+                                        placeholder="Complete Address"
+                                        type="text"
+                                        className="w-full h-8 pl-3 mt-5"
+                                        value={addr || ""}
+                                    />
+                                    <input
+                                        onChange={(event) => setPhnNum(event.target.value)}
+                                        placeholder="Phone Number"
+                                        type="number"
+                                        className="w-full h-8 pl-3 mt-5"
+                                        value={phnNum || ""}
+                                    />
+                                    <input
+                                        onChange={(event) => setSecPhnNum(event.target.value)}
+                                        placeholder="Secondary Phone Number (optional)"
+                                        type="number"
+                                        className="w-full h-8 pl-3 mt-5"
+                                        value={secPhnNum || ""}
+                                    />
+                                    <button onClick={handleProceed} className='w-full h-10 mt-5 bg-green-500 text-white rounded-xl'>Proceed</button>
+
+                                </form>
                             </div>
                         )}
                         {confirmAddress && (
                             <div className="fixed inset-0 bg-white text-black bg-opacity-70 z-10">
-                                <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-28">
+                                <form className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-28">
                                     <div className='flex justify-between items-center mb-2'>
                                         <h2>Enter your Card Details</h2>
                                         <svg onClick={() => setConfirmAddress(false)} className="bg-red-500 text-white p-1 rounded h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -123,13 +192,40 @@ const Checkout = () => {
                                             <line x1="6" y1="6" x2="18" y2="18" />
                                         </svg>
                                     </div>
-                                    <input placeholder='Full Name' required type='text' className='w-full h-8 pl-3 mt-7' />
-                                    <input placeholder='Card Number' required type='number' className='w-full h-8 pl-3 mt-5' />
-                                    <input placeholder='CVC' type='number' required className='w-full h-8 pl-3 mt-5' />
-                                    <input placeholder='Email (optional)' type='number' className='w-full h-8 pl-3 mt-5 mb-5' />
+                                    <input
+                                        onChange={(event) => setCardName(event.target.value)}
+                                        placeholder='Full Name'
+                                        required
+                                        type='text'
+                                        className='w-full h-8 pl-3 mt-7'
+                                        value={cardName || ''}
+                                    />
+                                    <input
+                                        onChange={(event) => setCardNumber(event.target.value)}
+                                        placeholder='Card Number'
+                                        required
+                                        type='number'
+                                        className='w-full h-8 pl-3 mt-5'
+                                        value={cardNumber || ''}
+                                    />
+                                    <input
+                                        onChange={(event) => setCardCvc(event.target.value)}
+                                        placeholder='CVC'
+                                        type='number'
+                                        required
+                                        className='w-full h-8 pl-3 mt-5'
+                                        value={cardCvc || ''}
+                                    />
+                                    <input
+                                        onChange={(event) => setEmail(event.target.value)}
+                                        placeholder='Email (optional)'
+                                        type='text'
+                                        className='w-full h-8 pl-3 mt-5 mb-5'
+                                        value={email || ''}
+                                    />
                                     <span className='ml-3'>The total payable amount is {totalAmount}</span>
-                                    <button onClick={() => setConfirmPayment(true)} className='w-full h-10 mt-5 bg-green-500 text-white rounded-xl'>Make Payment</button>
-                                </div>
+                                    <button onClick={handleMakePayment} className='w-full h-10 mt-5 bg-green-500 text-white rounded-xl'>Make Payment</button>
+                                </form>
                             </div>
                         )}
                     </div>

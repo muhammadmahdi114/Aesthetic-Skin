@@ -5,16 +5,16 @@ import Notification from '../Notification/notification';
 import ListingCard from '../ListingCard/listingcard';
 
 const Product = React.forwardRef((props, ref) => {
-    const [comp, setComp] = useState([false]);
+    const [comp, setComp] = useState(false);
     const [selectedProduct1, setSelectedProduct1] = useState(null);
     const [selectedProduct2, setSelectedProduct2] = useState(null);
     const [wishlist, setWishlist] = useState([]);
     const [cart, setCart] = useState([]);
     const [showWishlist, setShowWishlist] = useState(false);
     const [showCart, setShowCart] = useState(false);
-    const [notificationMessage, setNotificationMessage] = React.useState('');
-    const [notificationType, setNotificationType] = React.useState('');
-    const [showNotification, setShowNotification] = React.useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationType, setNotificationType] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
 
     const listings = [
         {
