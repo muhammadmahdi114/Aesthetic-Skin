@@ -340,24 +340,34 @@ const Product = React.forwardRef((props, ref) => {
                         ) : (
                             <div className='flex'>
                                 <div className='text-black flex items-end pr-6'>
-                                    <button type='/' className='flex items-center' onClick={handleLoginClick}>
-                                        <img
-                                            src="/login.png"
-                                            alt="Login Icon"
-                                            className="w-6 h-6 border-black"
-                                        />
-                                        &nbsp;Login
-                                    </button>
+                                    <Link href={{
+                                        pathname: '/Login/login',
+                                        query: { cart: JSON.stringify(cart) }
+                                    }}>
+                                        <button type='/' className='flex items-center'>
+                                            <img
+                                                src="/login.png"
+                                                alt="Login Icon"
+                                                className="w-6 h-6 border-black"
+                                            />
+                                            &nbsp;Login
+                                        </button>
+                                    </Link>
                                 </div>
                                 <div className='text-black gap-x-2 flex items-end'>
-                                    <button type='/' className='flex items-center' onClick={handleSignupClick}>
-                                        <img
-                                            src="/signup.png"
-                                            alt="Signup Icon"
-                                            className="w-6 h-6 border-black"
-                                        />
-                                        &nbsp;Signup
-                                    </button>
+                                    <Link href={{
+                                        pathname: '/Signup/signup',
+                                        query: { cart: JSON.stringify(cart) }
+                                    }}>
+                                        <button type='/' className='flex items-center'>
+                                            <img
+                                                src="signup.png"
+                                                alt="Signup Icon"
+                                                className="w-6 h-6 border-black"
+                                            />
+                                            &nbsp;Signup
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         )}
@@ -433,7 +443,7 @@ const Product = React.forwardRef((props, ref) => {
                                 query: { cart: JSON.stringify(cart) }
                             }}>
                                 <button className='bg-blue-500 text-white w-full mt-5 h-10 rounded-lg'>Go to Checkout</button>
-                            </Link>                           
+                            </Link>
                         </div>
                     </div>
                 )}

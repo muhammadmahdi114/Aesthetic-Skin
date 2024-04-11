@@ -18,7 +18,7 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'bgLogin':'url("/bglogin.jpg")',
+        'bgLogin':'url("/bgLogin.jpg")',
         'bgprod':'url("/bgimg.jpg")'
       },
     },
