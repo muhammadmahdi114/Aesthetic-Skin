@@ -51,19 +51,22 @@ const Checkout = () => {
     const handleMakePayment = (event) => {
         event.preventDefault();
 
-        if (!cardName) {
-            alert("Please enter the name.");
-        } else if (!cardNumber) {
-            alert("Please enter the Card Number.");
-        } else if (!cardCvc) {
-            alert("Please enter the CVC.");
-        } else {
-            setConfirmPayment(true);
-            setConfirmAddress(false);
-            setTimeout(() => {
-                window.print();
-            }, 1000);
-        }
+        // if (!cardName) {
+        //     alert("Please enter the name.");
+        // } else if (!cardNumber) {
+        //     alert("Please enter the Card Number.");
+        // } else if (!cardCvc) {
+        //     alert("Please enter the CVC.");
+        // } else {
+        //     setConfirmPayment(true);
+        //     setConfirmAddress(false);
+
+        // }
+        setConfirmPayment(true);
+        setConfirmAddress(false);
+        setTimeout(() => {
+            window.print();
+        }, 1000);
 
     }
 
@@ -195,7 +198,6 @@ const Checkout = () => {
                                     <input
                                         onChange={(event) => setCardName(event.target.value)}
                                         placeholder='Full Name'
-                                        required
                                         type='text'
                                         className='w-full h-8 pl-3 mt-7'
                                         value={cardName || ''}
@@ -203,7 +205,6 @@ const Checkout = () => {
                                     <input
                                         onChange={(event) => setCardNumber(event.target.value)}
                                         placeholder='Card Number'
-                                        required
                                         type='number'
                                         className='w-full h-8 pl-3 mt-5'
                                         value={cardNumber || ''}
@@ -212,7 +213,6 @@ const Checkout = () => {
                                         onChange={(event) => setCardCvc(event.target.value)}
                                         placeholder='CVC'
                                         type='number'
-                                        required
                                         className='w-full h-8 pl-3 mt-5'
                                         value={cardCvc || ''}
                                     />
@@ -226,6 +226,42 @@ const Checkout = () => {
                                     <span className='ml-3'>The total payable amount is {totalAmount}</span>
                                     <button onClick={handleMakePayment} className='w-full h-10 mt-5 bg-green-500 text-white rounded-xl'>Make Payment</button>
                                 </form>
+                            </div>
+                        )}
+                        {confirmPayment && (
+                            <div className="print-content fixed inset-0 bg-white text-black bg-opacity-100 z-10 flex flex-col items-center justify-center">
+                                <img
+                                    src='/logo.png'
+                                    alt="Logo"
+                                    className='h-60 -mt-40'
+                                    onClick={handleHomeBtn}
+                                />
+
+                                <span className='-mt-8' ><b>Bank:</b> XYZ Pakistan</span>
+                                <span ><b>Account Title:</b> Aesthetic Skin</span>
+                                <span className='mb-10'><b>Account Number:</b> xxxx-xxxx-xxxx-xxxx</span>
+                                <span className='font-bold text-4xl mb-14'>Order Details</span>
+
+                                <ul>
+                                    <li>
+                                        <div className='flex gap-x-[250px] justify-center mb-5'>
+                                            <span className='font-bold w-[200px]    '>Product Title</span>
+                                            <span className='font-bold ml-20'>Price</span>
+                                        </div>
+                                        {parsedCart.map((item) => (
+                                            <div key={item.id} className='flex items-center'>
+                                                <div className='flex gap-x-[80px] justify-between'>
+                                                    <span className='w-[400px] ml-20'>{item.title}</span>
+                                                    <span className='w-[200px] ml-20'>PKR: {item.price}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </li>
+                                </ul>
+                                <div className='text-xl flex gap-x-[400px] justify-between'>
+                                    <span></span>
+                                    <span className='mt-10'><b>Total Amount: </b>{totalAmount}</span>
+                                </div>
                             </div>
                         )}
                     </div>
