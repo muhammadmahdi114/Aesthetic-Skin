@@ -15,6 +15,7 @@ const Product = React.forwardRef((props, ref) => {
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationType, setNotificationType] = useState('');
     const [showNotification, setShowNotification] = useState(false);
+    const [logoutConfirm, setLogoutConfirm] = useState(false)
 
     const listings = [
         {
@@ -84,12 +85,6 @@ const Product = React.forwardRef((props, ref) => {
             imageUrl: '/a6pen.jpeg',
         },
     ];
-    const handleSignupClick = () => {
-        window.location.href = 'http://localhost:3002/signup'
-    };
-    const handleLoginClick = () => {
-        window.location.href = 'http://localhost:3002';
-    };
 
     const addToWishlist = (product) => {
         if (!wishlist.some(item => item.id === product.id)) {
@@ -152,17 +147,8 @@ const Product = React.forwardRef((props, ref) => {
         setShowNotification(true);
     };
 
-    const handleCheckout = () => {
-        if (cart.length === 0) {
-            alert("Cart is empty. Add items to the cart first.")
-        } else {
-            console.log("Checkout Pressed");
-            router.push('/checkout');
-        }
-    }
-
     const handleLogout = () => {
-        window.location.href = 'http://localhost:3000'
+        setLogoutConfirm(true);
     }
 
     const renderFeatures1 = () => {
@@ -317,11 +303,7 @@ const Product = React.forwardRef((props, ref) => {
     };
 
     const router = useRouter();
-    const loginSucParam = router.query.loginSuc;
-    const emailParam = router.query.email;
-    console.log("Login:", loginSucParam)
-    console.log("Email:", emailParam)
-
+    const loginName = router.query.name;
     return (
         <div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
             <div className="h-screen w-screen bg-bgprod bg-no-repeat bg-cover p-4 flex flex-col items-center ">
@@ -330,9 +312,9 @@ const Product = React.forwardRef((props, ref) => {
                 </div>
                 <div className='flex justify-end w-full -mt-12'>
                     <div className='flex gap-x-3 bg-white w-56 h-10 justify-center items-center opacity-80 rounded-2xl'>
-                        {loginSucParam ? (
+                        {loginName ? (
                             <div className='text-black flex gap-x-5'>
-                                <span>{emailParam}</span>
+                                <span>{loginName}</span>
                                 <svg onClick={handleLogout} class="w-6 h-6white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
                                 </svg>
@@ -368,6 +350,20 @@ const Product = React.forwardRef((props, ref) => {
                                             &nbsp;Signup
                                         </button>
                                     </Link>
+                                </div>
+                            </div>
+                        )}
+                        {logoutConfirm && (
+                            <div className="fixed inset-0 bg-white text-black bg-opacity-60 z-10">
+                                <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-28">
+                                    <span className='w-full flex flex-col items-center mt-6'>Are you sure you want to Logout?</span>
+                                    <div className='w-full flex justify-end items-end gap-x-3 mt-7'>
+                                        <Link
+                                            href={'/'}>
+                                            <button className='bg-red-500 text-white p-2 rounded-xl w-20' onClick={() => setLogoutConfirm(false)}>Yes</button>
+                                        </Link>
+                                        <button className='bg-green-500 text-white p-2 rounded-xl w-20' onClick={() => setLogoutConfirm(false)}>No</button>
+                                    </div>
                                 </div>
                             </div>
                         )}

@@ -33,14 +33,10 @@ const ListingCard = ({ id, title, location, price, imageUrl, addToWishlist, addT
                         <p className="text-black mb-4">{location}</p>
                         <p className="text-black font-semibold text-xl mt-2 text-gray-">Pkr : {price} </p>
                         <button onClick={() => addToWishlist({ id, title, price })} className="bg-blue-500 text-white p-1 rounded mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636v1.368a4.5 4.5 0 006.364 6.364z" />
-                            </svg>
+                            <img src="/wishlist.svg" alt="Wishlist" />
                         </button>
                         <button onClick={() => addToCart({ id, title, price })} className="bg-blue-500 text-white p-1 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-3 1a3 3 0 116 0 3 3 0 01-6 0z" />
-                            </svg>
+                        <img src="/cart.svg" alt="cart" />
                         </button>
                         {list === 'wishlist' && (
                             <button onClick={() => removeProduct(id, 'wishlist')} className="bg-red-500 text-white p-1 rounded">

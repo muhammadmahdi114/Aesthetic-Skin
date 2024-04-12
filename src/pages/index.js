@@ -11,6 +11,9 @@ export default function Index() {
   const AiRef = useRef(null);
   const BlogRef = useRef(null);
   const AboutRef = useRef(null);
+  useEffect(() => {
+    document.title = 'Aesthetic Skin';
+  }, []);
 
   return (
     <Baselayout
