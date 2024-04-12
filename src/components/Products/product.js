@@ -315,7 +315,7 @@ const Product = React.forwardRef((props, ref) => {
                         {loginName ? (
                             <div className='text-black flex gap-x-5'>
                                 <span>{loginName}</span>
-                                <svg onClick={handleLogout} class="w-6 h-6white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <svg onClick={handleLogout} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
                                 </svg>
                             </div>
@@ -355,7 +355,7 @@ const Product = React.forwardRef((props, ref) => {
                         )}
                         {logoutConfirm && (
                             <div className="fixed inset-0 bg-white text-black bg-opacity-60 z-10">
-                                <div className="bg-white p-4 rounded-md shadow-md w-1/3 mx-auto mt-28">
+                                <div className="bg-white p-4 rounded-3xl shadow-md w-1/3 mx-auto mt-28">
                                     <span className='w-full flex flex-col items-center mt-6'>Are you sure you want to Logout?</span>
                                     <div className='w-full flex justify-end items-end gap-x-3 mt-7'>
                                         <Link
