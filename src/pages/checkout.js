@@ -14,6 +14,7 @@ const Checkout = () => {
     const [addr, setAddr] = useState(null);
     const [phnNum, setPhnNum] = useState(null);
     const [secPhnNum, setSecPhnNum] = useState(null);
+    const [selectedOption, setSelectedOption] = useState('');
 
     useEffect(() => {
         document.title = 'Aesthetic Skin | Cart';
@@ -54,12 +55,19 @@ const Checkout = () => {
             alert("Please enter the Phone Number.");
         } else {
             setConfirmPayment(true);
-            setTimeout(() => {
-                window.print();
-            }, 1000);
+            if (selectedOption === "payNow1") {
+                setTimeout(() => {
+                    window.print();
+                }, 1000);
+            }
         }
 
     }
+
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
+        console.log(selectedOption)
+    };
 
     const makepayment = async () => {
 
@@ -131,6 +139,31 @@ const Checkout = () => {
                         <div className='w-full flex justify-end'>
                             <span className="mr-72">Total Amount: <b>PKR {totalAmount}</b></span>
                         </div>
+                        <div className='flex justify-center gap-x-10 ml-80 mt-8'>
+                            <input
+                                type="radio"
+                                id="payNow1"
+                                name="paymentOption"
+                                value="payNow1"
+                                className='w-4 ml-40'
+                                checked={selectedOption === 'payNow1'}
+                                onChange={handleOptionChange}
+                            />
+                            <label className='-ml-7' htmlFor="payNow1">Pay now</label>
+
+                            <br />
+
+                            <input
+                                type="radio"
+                                id="payNow2"
+                                name="paymentOption"
+                                value="payNow2"
+                                className='w-4'
+                                checked={selectedOption === 'payNow2'}
+                                onChange={handleOptionChange}
+                            />
+                            <label className='-ml-7' htmlFor="payNow2">Cash on Delivery</label>
+                        </div>
 
                         <div className='w-full flex justify-end mt-7'>
                             <button onClick={() => setCheckoutBtn(true)} className='mr-80 w-36 h-10 bg-blue-500 text-white rounded-xl'>Checkout</button>
@@ -178,7 +211,7 @@ const Checkout = () => {
                                 </form>
                             </div>
                         )}
-                        {confirmPayment && (
+                        {selectedOption === "payNow1" && confirmPayment && (
                             <div className="print-content fixed inset-0 bg-white text-black bg-opacity-100 z-10 flex flex-col items-center justify-center">
                                 <img
                                     src='/logo.png'
@@ -212,6 +245,17 @@ const Checkout = () => {
                                     <span></span>
                                     <span className='mt-10'><b>Total Amount: </b>{totalAmount}</span>
                                 </div>
+                            </div>
+                        )}
+                        {selectedOption === "payNow2" && confirmPayment && (
+                            <div className="print-content fixed inset-0 bg-white text-black bg-opacity-100 z-10 flex flex-col items-center justify-center">
+                                <img
+                                    src='/logo.png'
+                                    alt="Logo"
+                                    className='h-60 -mt-40'
+                                    onClick={handleHomeBtn}
+                                />
+                                <span>Your Order is confirimed!</span>
                             </div>
                         )}
                     </div>
