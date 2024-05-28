@@ -1,34 +1,75 @@
 const express = require("express");
 const cors = require("cors");
-const usersauth = require("./mongo");
+const usersauth = require("./mongo"); 
+const bcrypt = require("bcryptjs");
+const cookieParser = require("cookie-parser");
+const session = require('express-session');
+const Comment = require("./src/models/comments");
+const Blog = require("./src/models/blog");
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
+app.use(session({
+    secret: 'shhh',
+    resave: false,
+    saveUninitialized: false, 
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+        httpOnly: true,
+        secure: false,
+    }
+}));
+
+const authenticate = async (req, res, next) => {
+    if (req.session.userId) {
+        try {
+            const user = await usersauth.findById(req.session.userId);
+            if (user) {
+                req.user = user;
+                return next();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    res.status(401).json({ success: false, message: "Unauthorized" });
+};
 
 app.post("/", async (req, res) => {
     const { email, password } = req.body;
-
     if (!password) {
         return res.json({ success: false, message: "Password is required" });
     }
-
     try {
-        const user = await usersauth.findOne({ email: email });
-
-        if (user) {
-            if (user.password === password) {
-                return res.json({ success: true, username: user.name });
-            } else {
-                return res.json({ success: false, message: "Invalid password" });
-            }
+        const user = await usersauth.findOne({ email });
+        if (user && await bcrypt.compare(password, user.password)) {
+            req.session.userId = user._id;
+            return res.status(200).json({
+                success: true,
+                username: user.name,
+                user: {
+                    ...user.toObject(),
+                    cart: user.cart.map(product => product._id),
+                    wishlist: user.wishlist.map(product => product._id),
+                }
+            });
         } else {
-            return res.json({ success: false, message: "User does not exist" });
+            return res.json({ success: false, message: "Invalid email or password" });
         }
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
+
+
 
 app.post("/signup", async (req, res) => {
     const { name, email, password, age, gender } = req.body;
@@ -38,7 +79,9 @@ app.post("/signup", async (req, res) => {
         email,
         password,
         age,
-        gender
+        gender,
+        cart: [],
+        wishlist: [],
     };
 
     try {
@@ -47,14 +90,88 @@ app.post("/signup", async (req, res) => {
         if (check) {
             return res.json("exist");
         } else {
-            await usersauth.insertMany([data]);
-            return res.json("notexist");
+            const EncPassword = await bcrypt.hash(password, 10);
+            const user = await usersauth.create({
+                name,
+                email,
+                password: EncPassword,
+                age,
+                gender,
+                cart: data.cart,
+                wishlist: data.wishlist,
+            });
+            req.session.userId = user._id; // Store user's _id in session
+
+            res.status(201).json(user);
+            return;
         }
-    } catch (e) {
-        return res.json("fail");
+    } catch (error) {
+        console.error(error);
+        res.json("fail");
+        return;
+    }
+});
+
+app.post("/add-comment", async (req, res) => {
+    const { text, userName } = req.body;
+    if (!userName) {
+        return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+    try {
+        const newComment = new Comment({
+            text,
+            userName,
+            createdAt: new Date()
+        });
+        await newComment.save();
+        return res.status(201).json({ success: true, comment: newComment });
+    } catch (error) {
+        console.error(error, "asdasdasdas");
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+});
+
+app.get("/comments", async (req, res) => {
+    try {
+        const comments = await Comment.find().sort({ createdAt: -1 });
+        return res.status(200).json({ success: true, comments });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+});
+
+app.post("/add-blog", async (req, res) => {
+    const { title, content, author } = req.body;
+    if (!author) {
+        return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    try {
+        const newBlog = new Blog({
+            title,
+            content,
+            author,
+            createdAt: new Date()
+        });
+        await newBlog.save();
+        return res.status(201).json({ success: true, blog: newBlog });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+});
+
+app.get("/blogs", async (req, res) => {
+    try {
+        const blogs = await Blog.find().sort({ createdAt: -1 });
+        return res.status(200).json({ success: true, blogs });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
 
 app.listen(8000, () => {
-    console.log("port connected");
+    console.log("Server is running on port 8000");
 });

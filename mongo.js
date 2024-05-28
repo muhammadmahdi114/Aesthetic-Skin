@@ -15,7 +15,8 @@ const newSchema=new mongoose.Schema({
     },
     email:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     password:{
         type:String,
@@ -31,6 +32,6 @@ const newSchema=new mongoose.Schema({
     }
 })
 
-const usersauth = mongoose.model("collection",newSchema)
+const usersauth = mongoose.model("user",newSchema)
 
 module.exports=usersauth

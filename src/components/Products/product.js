@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Notification from '../Notification/notification';
 import ListingCard from '../ListingCard/listingcard';
@@ -15,7 +14,8 @@ const Product = React.forwardRef((props, ref) => {
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationType, setNotificationType] = useState('');
     const [showNotification, setShowNotification] = useState(false);
-    const [logoutConfirm, setLogoutConfirm] = useState(false)
+    const [loginName, setLoginName] = useState('');
+    const [logoutConfirm, setLogoutConfirm] = useState(false);
 
     const listings = [
         {
@@ -86,30 +86,72 @@ const Product = React.forwardRef((props, ref) => {
         },
     ];
 
-    const addToWishlist = (product) => {
-        if (!wishlist.some(item => item.id === product.id)) {
-            setWishlist([...wishlist, product]);
-            setNotificationMessage(`${product.title} has been added to the wishlist.`);
-            setNotificationType('Green')
-            setShowNotification(true);
+    useEffect(() => {
+        const storedName = sessionStorage.getItem('name');
+        if (storedName) {
+            setLoginName(storedName);
+            console.log(storedName);
         }
-        setShowNotification(true);
+    }, []);
+
+    const addToWishlist = async (product, token) => {
+        if (!wishlist.some(item => item.id === product.id)) {
+            try {
+                setWishlist([...wishlist, product]);
+                setNotificationMessage(`${product.title} has been added to the wishlist.`);
+                setNotificationType('Green');
+                setShowNotification(true);
+            } catch (error) {
+                console.error(error);
+                setNotificationMessage(`Failed to add ${product.title} to the wishlist.`);
+                setNotificationType('Red');
+                setShowNotification(true);
+            }
+        }
     };
 
-    const addToCart = (product) => {
+    const addToCart = async (product, token) => {
         if (!cart.some(item => item.id === product.id)) {
-            setCart([...cart, { ...product, imageUrl: product.imageUrl }]);
-            setNotificationMessage(`${product.title} has been added to the cart.`);
-            setNotificationType('Green')
+            try {
+                setCart([...cart, { ...product, imageUrl: product.imageUrl }]);
+                setNotificationMessage(`${product.title} has been added to the cart.`);
+                setNotificationType('Green');
+                setShowNotification(true);
+            } catch (error) {
+                console.error(error);
+                setNotificationMessage(`Failed to add ${product.title} to the cart.`);
+                setNotificationType('Red');
+                setShowNotification(true);
+            }
         }
-        setShowNotification(true);
+    };
+
+    const removeProduct = async (productId, productTitle, list, token) => {
+        const updatedList = list.filter((product) => product.id !== productId);
+        try {
+            if (list === wishlist) {
+                setWishlist(updatedList);
+                setNotificationMessage(`${productTitle} has been removed from the Wishlist.`);
+                setNotificationType('Red');
+            } else if (list === cart) {
+                setCart(updatedList);
+                setNotificationMessage(`${productTitle} has been removed from the Cart.`);
+                setNotificationType('Red');
+            }
+            setShowNotification(true);
+        } catch (error) {
+            console.error(error);
+            setNotificationMessage(`Failed to remove ${productTitle}.`);
+            setNotificationType('Red');
+            setShowNotification(true);
+        }
     };
 
     const hideNotification = () => {
         setShowNotification(false);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (showNotification) {
             const timer = setTimeout(() => hideNotification(), 3000);
             return () => clearTimeout(timer);
@@ -133,22 +175,18 @@ const Product = React.forwardRef((props, ref) => {
         setSelectedProduct2(selectedValue);
     };
 
-    const removeProduct = (productId, productTitle, list) => {
-        const updatedList = list.filter((product) => product.id !== productId);
-        if (list === wishlist) {
-            setWishlist(updatedList);
-            setNotificationMessage(`${productTitle} has been removed from the Wishlist.`);
-            setNotificationType('Red')
-        } else if (list === cart) {
-            setCart(updatedList);
-            setNotificationMessage(`${productTitle} has been removed from the Cart.`);
-            setNotificationType('Red')
-        }
-        setShowNotification(true);
-    };
-
     const handleLogout = () => {
         setLogoutConfirm(true);
+    }
+    const hangleLogoutConfirm = () => {
+        try {
+            sessionStorage.removeItem('loginName');
+            setLoginName('');
+            setLogoutConfirm(false);
+            console.log('Logged out successfully');
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
     }
 
     const renderFeatures1 = () => {
@@ -302,8 +340,6 @@ const Product = React.forwardRef((props, ref) => {
         );
     };
 
-    const router = useRouter();
-    const loginName = router.query.name;
     return (
         <div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
             <div className="h-screen w-screen bg-bgprod bg-no-repeat bg-cover p-4 flex flex-col items-center ">
@@ -316,7 +352,7 @@ const Product = React.forwardRef((props, ref) => {
                             <div className='text-black flex gap-x-5'>
                                 <span>{loginName}</span>
                                 <svg onClick={handleLogout} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={'2'} d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
                                 </svg>
                             </div>
                         ) : (
@@ -347,7 +383,7 @@ const Product = React.forwardRef((props, ref) => {
                                                 alt="Signup Icon"
                                                 className="w-6 h-6 border-black"
                                             />
-                                            &nbsp;Signup
+                                            &nbsp;Sign Up
                                         </button>
                                     </Link>
                                 </div>
@@ -358,10 +394,7 @@ const Product = React.forwardRef((props, ref) => {
                                 <div className="bg-white p-4 rounded-3xl shadow-md w-1/3 mx-auto mt-28">
                                     <span className='w-full flex flex-col items-center mt-6'>Are you sure you want to Logout?</span>
                                     <div className='w-full flex justify-end items-end gap-x-3 mt-7'>
-                                        <Link
-                                            href={'/'}>
-                                            <button className='bg-red-500 text-white p-2 rounded-xl w-20' onClick={() => setLogoutConfirm(false)}>Yes</button>
-                                        </Link>
+                                        <button className='bg-red-500 text-white p-2 rounded-xl w-20' onClick={hangleLogoutConfirm}>Yes</button>
                                         <button className='bg-green-500 text-white p-2 rounded-xl w-20' onClick={() => setLogoutConfirm(false)}>No</button>
                                     </div>
                                 </div>
