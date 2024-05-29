@@ -9,6 +9,7 @@ const Blog = React.forwardRef((props, ref) => {
   const [newBlogTitle, setNewBlogTitle] = useState('');
   const [newBlogContent, setNewBlogContent] = useState('');
   const [selectedBlog, setSelectedBlog] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const commentRef = useRef();
   const router = useRouter();
 
@@ -38,17 +39,6 @@ const Blog = React.forwardRef((props, ref) => {
     fetchComments();
     fetchBlogs();
   }, []);
-
-  const fetchBlogs = async () => {
-    try {
-      const response = await axios.get('http://localhost:8000/blogs', { withCredentials: true });
-      if (response.data.success) {
-        setBlogs(response.data.blogs);
-      }
-    } catch (error) {
-      console.error('Error fetching blogs:', error);
-    }
-  };
 
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
@@ -98,7 +88,7 @@ const Blog = React.forwardRef((props, ref) => {
       }, { withCredentials: true });
 
       if (response.data.success) {
-        alert("Blog Posted")
+        alert("Blog Posted");
         setNewBlogTitle('');
         setNewBlogContent('');
         fetchBlogs();
@@ -112,10 +102,47 @@ const Blog = React.forwardRef((props, ref) => {
     setSelectedBlog(blog);
   };
 
-  return (
-    <div>
-      <section ref={ref} className="bg-slate-200 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen flex flex-col justify-start items-center py-10">
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
+  const handleFileUpload = async (event) => {
+    event.preventDefault();
+    if (!selectedFile) {
+      alert('Please select a file to upload');
+      return;
+    }
+
+    const userName = sessionStorage.getItem('name');
+    if (!userName) {
+      router.push("/Login/login");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('userName', userName);
+
+    try {
+      const response = await axios.post('http://localhost:8000/upload-photo', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true
+      });
+
+      if (response.data.success) {
+        alert('Photo uploaded successfully');
+        setSelectedFile(null);
+      }
+    } catch (error) {
+      console.error('Error uploading photo:', error);
+    }
+  };
+
+  return (
+    <div className='flex flex-col justify-start items-center '>
+      <section ref={ref} className="bg-slate-200 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen py-10">
         <section className="w-full max-w-2xl mx-auto mt-16">
           <h2 className="font-cursive text-4xl text-center text-black font-bold pl-32">Blogs</h2>
           <div className="overflow-y-auto h-64 p-4 mt-4 border-2 bg-gray-200 border-gray-300">
@@ -136,11 +163,9 @@ const Blog = React.forwardRef((props, ref) => {
         </section>
 
         {selectedBlog && (
-          <div className='flex flex-col justify-center items-center mt-8' >
-            <h1 className='text-black font-bold text-2xl ml-28'>Blog Content</h1>
+          <div className="flex flex-col justify-center items-center mt-8">
+            <h1 className="text-black font-bold text-2xl ml-28">Blog Content</h1>
             <div className="w-full max-w-2xl mx-auto mt-8 p-4 border-2 border-gray-300 bg-gray-200 text-black">
-
-
               <h3 className="font-bold text-lg">{selectedBlog.title}</h3>
               <p className="text-gray-600">Author: {selectedBlog.author}</p>
               <p className="mt-2">{selectedBlog.content}</p>
@@ -187,7 +212,30 @@ const Blog = React.forwardRef((props, ref) => {
         </section>
 
         <section className="w-full max-w-2xl mx-auto mt-16">
-          <h2 className="font-cursive text-4xl text-center text-black font-bold pl-32">Comments</h2>
+          <h2 className="font-cursive text-4xl text-center text-black font-bold pl-32">Upload Photo</h2>
+          <form onSubmit={handleFileUpload} className="w-full max-w-md mx-auto mt-8">
+            <div className="mb-4">
+              <label className="block text-lg text-gray-700 font-bold mb-2" htmlFor="file">
+                Choose a photo to upload
+              </label>
+              <input
+                id="file"
+                type="file"
+                onChange={handleFileChange}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Upload Photo
+            </button>
+          </form>
+        </section>
+
+        <section className="w-full max-w-2xl mx-auto mt-16">
+          <h2 className="font-cursive text-4xl text-center text-black font-bold pl-32">What do you have to say?</h2>
           <div ref={commentRef} className="overflow-y-auto h-64 p-4 mt-4 border-2 bg-gray-200 border-gray-300">
             {comments.map((comment) => (
               <div key={comment._id} className="flex items-start mb-4">
@@ -205,8 +253,18 @@ const Blog = React.forwardRef((props, ref) => {
           </div>
           <form onSubmit={handleCommentSubmit} className="w-full max-w-md mx-auto mt-8">
             <div className="flex items-center border-b-2 border-teal-500 py-2">
-              <input value={newComment} onChange={(event) => setNewComment(event.target.value)} className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Add a comment..." aria-label="Add a comment" />
-              <button className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="submit">
+              <input
+                value={newComment}
+                onChange={(event) => setNewComment(event.target.value)}
+                className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                type="text"
+                placeholder="Add a comment..."
+                aria-label="Add a comment"
+              />
+              <button
+                className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+                type="submit"
+              >
                 Submit
               </button>
             </div>

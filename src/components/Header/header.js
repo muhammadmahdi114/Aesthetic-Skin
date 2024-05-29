@@ -1,6 +1,5 @@
 import React from 'react';
-
-
+import ChatBot from '../Chatbot/chatbot';
 
 export default function Header({ ProdRef, AiRef, BlogRef, AboutRef, active, setActive }) {
 
@@ -68,6 +67,7 @@ export default function Header({ ProdRef, AiRef, BlogRef, AboutRef, active, setA
           ABOUT US
         </button>
       </div>
+      <ChatBot/>
     </div>
   );
 }
