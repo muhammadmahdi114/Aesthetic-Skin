@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
   const router = useRouter();
 
   async function submit(e) {
@@ -27,8 +26,6 @@ export default function Login() {
       if (response.data.success) {
         const nameFromResponse = response.data.username;
         sessionStorage.setItem("name", nameFromResponse);
-        setUserName(nameFromResponse);
-        console.log(nameFromResponse, "Login Name")
         router.push("/");
       } else {
         alert(response.data.message);

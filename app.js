@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const usersauth = require("./mongo"); 
+const usersauth = require("./src/models/mongo"); 
 const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
@@ -26,21 +26,6 @@ app.use(session({
         secure: false,
     }
 }));
-
-const authenticate = async (req, res, next) => {
-    if (req.session.userId) {
-        try {
-            const user = await usersauth.findById(req.session.userId);
-            if (user) {
-                req.user = user;
-                return next();
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
-    res.status(401).json({ success: false, message: "Unauthorized" });
-};
 
 app.post("/", async (req, res) => {
     const { email, password } = req.body;
@@ -68,8 +53,6 @@ app.post("/", async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
-
-
 
 app.post("/signup", async (req, res) => {
     const { name, email, password, age, gender } = req.body;
@@ -126,7 +109,7 @@ app.post("/add-comment", async (req, res) => {
         await newComment.save();
         return res.status(201).json({ success: true, comment: newComment });
     } catch (error) {
-        console.error(error, "asdasdasdas");
+        console.error(error);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
