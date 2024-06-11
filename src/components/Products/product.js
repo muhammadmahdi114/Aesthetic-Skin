@@ -16,6 +16,7 @@ const Product = React.forwardRef((props, ref) => {
     const [showNotification, setShowNotification] = useState(false);
     const [loginName, setLoginName] = useState('');
     const [logoutConfirm, setLogoutConfirm] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const listings = [
         {
@@ -340,6 +341,12 @@ const Product = React.forwardRef((props, ref) => {
         );
     };
 
+    const filteredListings = listings.filter((listing) => {
+        const title = listing.title.toLowerCase();
+        const searchQueryLowercase = searchQuery.toLowerCase();
+        return title.includes(searchQueryLowercase);
+    });
+
     return (
         <div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
             <div className="h-screen w-screen bg-bgprod bg-no-repeat bg-cover p-4 flex flex-col items-center ">
@@ -394,8 +401,19 @@ const Product = React.forwardRef((props, ref) => {
                                 <div className="bg-white p-4 rounded-3xl shadow-md w-1/3 mx-auto mt-28">
                                     <span className='w-full flex flex-col items-center mt-6'>Are you sure you want to Logout?</span>
                                     <div className='w-full flex justify-end items-end gap-x-3 mt-7'>
-                                        <button className='bg-red-500 text-white p-2 rounded-xl w-20' onClick={hangleLogoutConfirm}>Yes</button>
-                                        <button className='bg-green-500 text-white p-2 rounded-xl w-20' onClick={() => setLogoutConfirm(false)}>No</button>
+                                        <button
+                                            className="p-2 rounded text-center border-white mt-4 bg-red-500 text-white w-20 hover:bg-red-700 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline"
+                                            onClick={hangleLogoutConfirm}
+                                        >
+                                            Yes
+                                        </button>
+                                        <button
+                                            className="p-2 rounded text-center border-white mt-4 bg-green-500 text-white w-20 hover:bg-green-700 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline"
+                                            onClick={() => setLogoutConfirm(false)}
+                                        >
+                                            No
+                                        </button>
+
                                     </div>
                                 </div>
                             </div>
@@ -410,18 +428,32 @@ const Product = React.forwardRef((props, ref) => {
                 <div className="flex justify-center w-screen -ml-20">
                     <div className="flex gap-x-6 text-black">
 
-                        <button onClick={handleCompare} className="p-2 rounded text-center border-white mt-4 bg-white w-60">Compare Products</button>
-                        <button onClick={() => setShowWishlist(true)} className="p-2 rounded text-center border-white mt-4 bg-white w-60">
+                        <button
+                            onClick={handleCompare}
+                            className="p-2 rounded text-center border-white mt-4 bg-white w-60 hover:bg-gray-100 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline"
+                        >
+                            Compare Products
+                        </button>
+                        <button
+                            onClick={() => setShowWishlist(true)}
+                            className="p-2 rounded text-center border-white mt-4 bg-white w-60 hover:bg-gray-100 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline"
+                        >
                             Wishlist
                         </button>
-                        <button onClick={() => setShowCart(true)} className="p-2 rounded text-center border-white mt-4 bg-white w-60">
+                        <button
+                            onClick={() => setShowCart(true)}
+                            className="p-2 rounded text-center border-white mt-4 bg-white w-60 hover:bg-gray-100 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline"
+                        >
                             Cart
                         </button>
+
                         <div className="relative mt-4">
                             <input
                                 type="text"
                                 placeholder="Search..."
                                 className="p-2 rounded border-white bg-white pl-12 w-60"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                                 <img
@@ -509,6 +541,7 @@ const Product = React.forwardRef((props, ref) => {
                                         </div>
                                     </li>
                                 ))}
+
                             </ul>
                         </div>
                     </div>
@@ -567,26 +600,45 @@ const Product = React.forwardRef((props, ref) => {
                         {showNotification && (
                             <Notification message={notificationMessage} type={notificationType} />
                         )}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 ">
-                            {listings.map((listing) => (
-                                <ListingCard
-                                    key={listing.id}
-                                    id={listing.id}
-                                    title={listing.title}
-                                    location={listing.location}
-                                    price={listing.price}
-                                    imageUrl={listing.imageUrl}
-                                    addToWishlist={addToWishlist}
-                                    addToCart={addToCart}
-                                    removeProduct={removeProduct}
-                                />
-                            ))}
-                        </div>
+                        {searchQuery ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                                {filteredListings.map((listing) => (
+                                    <ListingCard
+                                        key={listing.id}
+                                        id={listing.id}
+                                        title={listing.title}
+                                        location={listing.location}
+                                        price={listing.price}
+                                        imageUrl={listing.imageUrl}
+                                        addToWishlist={addToWishlist}
+                                        addToCart={addToCart}
+                                        removeProduct={removeProduct}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                                {listings.map((listing) => (
+                                    <ListingCard
+                                        key={listing.id}
+                                        id={listing.id}
+                                        title={listing.title}
+                                        location={listing.location}
+                                        price={listing.price}
+                                        imageUrl={listing.imageUrl}
+                                        addToWishlist={addToWishlist}
+                                        addToCart={addToCart}
+                                        removeProduct={removeProduct}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
 
             </div>
-        </div>
+        </div >
     );
 })
 export default Product;     

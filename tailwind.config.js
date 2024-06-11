@@ -19,7 +19,9 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'bgLogin':'url("/bgLogin.jpg")',
-        'bgprod':'url("/bgimg.jpg")'
+        'bgprod':'url("/bgimg.jpg")',
+        'bgai':'url("/ai-bg.png")'
+
       },
     },
   },

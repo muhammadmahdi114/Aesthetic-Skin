@@ -1,6 +1,5 @@
 {
   "proxy": "http://127.0.0.1:5000",
-  
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
@@ -47,5 +46,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3"
   }
 }

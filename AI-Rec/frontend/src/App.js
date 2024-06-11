@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
   Route,
-  useHistory  
 } from "react-router-dom";
 
 import ImageInput from "./views/imageInput";

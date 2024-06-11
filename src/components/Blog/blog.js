@@ -1,30 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
 const Blog = React.forwardRef((props, ref) => {
-  const [comments, setComments] = useState([]);
   const [blogs, setBlogs] = useState([]);
-  const [newComment, setNewComment] = useState('');
   const [newBlogTitle, setNewBlogTitle] = useState('');
   const [newBlogContent, setNewBlogContent] = useState('');
   const [selectedBlog, setSelectedBlog] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const commentRef = useRef();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/comments', { withCredentials: true });
-        if (response.data.success) {
-          setComments(response.data.comments);
-        }
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    };
-
     const fetchBlogs = async () => {
       try {
         const response = await axios.get('http://localhost:8000/blogs', { withCredentials: true });
@@ -35,38 +20,8 @@ const Blog = React.forwardRef((props, ref) => {
         console.error('Error fetching blogs:', error);
       }
     };
-
-    fetchComments();
     fetchBlogs();
   }, []);
-
-  const handleCommentSubmit = async (event) => {
-    event.preventDefault();
-    if (!newComment.trim()) {
-      return;
-    }
-
-    const userName = sessionStorage.getItem('name');
-    if (!userName) {
-      router.push("/Login/login");
-      return;
-    }
-
-    try {
-      const response = await axios.post('http://localhost:8000/add-comment', {
-        text: newComment,
-        userName: userName
-      }, { withCredentials: true });
-
-      if (response.data.success) {
-        setComments((prevComments) => [response.data.comment, ...prevComments]);
-        setNewComment('');
-        commentRef.current.scrollTop = 0;
-      }
-    } catch (error) {
-      console.error('Error adding comment:', error);
-    }
-  };
 
   const handleBlogSubmit = async (event) => {
     event.preventDefault();
@@ -102,58 +57,25 @@ const Blog = React.forwardRef((props, ref) => {
     setSelectedBlog(blog);
   };
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
-  const handleFileUpload = async (event) => {
-    event.preventDefault();
-    if (!selectedFile) {
-      alert('Please select a file to upload');
-      return;
-    }
-
-    const userName = sessionStorage.getItem('name');
-    if (!userName) {
-      router.push("/Login/login");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('userName', userName);
-
-    try {
-      const response = await axios.post('http://localhost:8000/upload-photo', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        withCredentials: true
-      });
-
-      if (response.data.success) {
-        alert('Photo uploaded successfully');
-        setSelectedFile(null);
-      }
-    } catch (error) {
-      console.error('Error uploading photo:', error);
-    }
-  };
-
   return (
-    <div className='flex flex-col justify-start items-center '>
-      <section ref={ref} className="bg-slate-200 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen py-10">
+    <div className='flex flex-col justify-start items-center text-black'>
+      <section ref={ref} className="bg-slate-200 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen font-cursive py-10 ml-40">
+        <h2 className="text-4xl text-center font-bold">Blogs</h2>
         <section className="w-full max-w-2xl mx-auto mt-16">
-          <h2 className="font-cursive text-4xl text-center text-black font-bold pl-32">Blogs</h2>
+          <h2 className="text-2xl text-center text-black font-bold">Read a Blog</h2>
           <div className="overflow-y-auto h-64 p-4 mt-4 border-2 bg-gray-200 border-gray-300">
             {blogs.map((blog) => (
-              <div key={blog._id} className="flex items-start mb-4 cursor-pointer" onClick={() => handleBlogClick(blog)}>
+              <div
+                key={blog._id}
+                className="flex items-start mb-4 cursor-pointer p-4 rounded hover:bg-gray-300 hover:shadow-md transition duration-300 ease-in-out"
+                onClick={() => handleBlogClick(blog)}
+              >
                 <div className="flex-shrink-0 mr-4">
                   <span className="text-lg text-black font-bold">{blog.author}: </span>
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-cursive text-lg text-black">{blog.title}</h3>
+                    <h3 className="text-lg text-black">{blog.title}</h3>
                     <span className="text-sm text-gray-600">{new Date(blog.createdAt).toLocaleString()}</span>
                   </div>
                 </div>
@@ -164,7 +86,7 @@ const Blog = React.forwardRef((props, ref) => {
 
         {selectedBlog && (
           <div className="flex flex-col justify-center items-center mt-8">
-            <h1 className="text-black font-bold text-2xl ml-28">Blog Content</h1>
+            <h1 className="text-black font-bold text-2xl">Blog Content</h1>
             <div className="w-full max-w-2xl mx-auto mt-8 p-4 border-2 border-gray-300 bg-gray-200 text-black">
               <h3 className="font-bold text-lg">{selectedBlog.title}</h3>
               <p className="text-gray-600">Author: {selectedBlog.author}</p>
@@ -172,10 +94,9 @@ const Blog = React.forwardRef((props, ref) => {
             </div>
           </div>
         )}
-
         <section className="w-full max-w-2xl mx-auto mt-16">
-          <h2 className="font-cursive text-4xl text-center text-black font-bold pl-32">Write a Blog</h2>
-          <form onSubmit={handleBlogSubmit} className="w-full max-w-md mx-auto mt-8">
+          <h2 className="text-2xl text-center text-black font-bold">Write a Blog</h2>
+          <form onSubmit={handleBlogSubmit} className="w-full max-w-md mx-auto mt-8 ">
             <div className="mb-4">
               <label className="block text-lg text-gray-700 font-bold mb-2" htmlFor="title">
                 Title
@@ -185,7 +106,7 @@ const Blog = React.forwardRef((props, ref) => {
                 type="text"
                 value={newBlogTitle}
                 onChange={(event) => setNewBlogTitle(event.target.value)}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="appearance-none border rounded w-full max-w-2xl py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter blog title"
               />
             </div>
@@ -197,77 +118,17 @@ const Blog = React.forwardRef((props, ref) => {
                 id="content"
                 value={newBlogContent}
                 onChange={(event) => setNewBlogContent(event.target.value)}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
+                className="appearance-none border rounded py-2 px-3 w-full max-w-2xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
                 placeholder="Write your blog content here"
                 maxLength={500}
               />
             </div>
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="p-2 rounded text-center border-white mt-4 bg-white w-60 hover:bg-gray-100 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline ml-24"
               type="submit"
             >
               Submit Blog
             </button>
-          </form>
-        </section>
-
-        <section className="w-full max-w-2xl mx-auto mt-16">
-          <h2 className="font-cursive text-4xl text-center text-black font-bold pl-32">Upload Photo</h2>
-          <form onSubmit={handleFileUpload} className="w-full max-w-md mx-auto mt-8">
-            <div className="mb-4">
-              <label className="block text-lg text-gray-700 font-bold mb-2" htmlFor="file">
-                Choose a photo to upload
-              </label>
-              <input
-                id="file"
-                type="file"
-                onChange={handleFileChange}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Upload Photo
-            </button>
-          </form>
-        </section>
-
-        <section className="w-full max-w-2xl mx-auto mt-16">
-          <h2 className="font-cursive text-4xl text-center text-black font-bold pl-32">What do you have to say?</h2>
-          <div ref={commentRef} className="overflow-y-auto h-64 p-4 mt-4 border-2 bg-gray-200 border-gray-300">
-            {comments.map((comment) => (
-              <div key={comment._id} className="flex items-start mb-4">
-                <div className="flex-shrink-0 mr-4">
-                  <span className="text-lg text-black font-bold">{comment.userName}: </span>
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-cursive text-lg text-black">{comment.text}</h3>
-                    <span className="text-sm text-gray-600">{new Date(comment.createdAt).toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <form onSubmit={handleCommentSubmit} className="w-full max-w-md mx-auto mt-8">
-            <div className="flex items-center border-b-2 border-teal-500 py-2">
-              <input
-                value={newComment}
-                onChange={(event) => setNewComment(event.target.value)}
-                className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                type="text"
-                placeholder="Add a comment..."
-                aria-label="Add a comment"
-              />
-              <button
-                className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
           </form>
         </section>
       </section>

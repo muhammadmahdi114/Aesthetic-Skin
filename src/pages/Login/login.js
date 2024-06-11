@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,6 +7,10 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    document.title = 'Aesthetic Skin | Login';
+  }, []);
 
   async function submit(e) {
     e.preventDefault();
@@ -52,7 +56,12 @@ export default function Login() {
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="h-8 border-b-2 border-gray-200 pl-5 w-full" />
           </div>
           <div className="w-80 mt-10">
-            <button type="submit" className="h-12 w-full text-white bg-gray-600 hover:bg-green-700 rounded-lg">Submit</button>
+            <button
+              type="submit"
+              className="p-2 rounded text-center border-white mt-4 bg-gray-600 text-white h-12 w-full hover:bg-gray-700 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline"
+            >
+              Submit
+            </button>
           </div>
         </form>
         <span className="mt-3">Don't have an account? <Link href="/Signup/signup"><span className="underline text-blue-700">Sign up!</span></Link></span>

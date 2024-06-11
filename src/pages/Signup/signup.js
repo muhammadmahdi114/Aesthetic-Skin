@@ -87,7 +87,10 @@ function Signup() {
           className="h-8 w-80 border-b-2 text-black border-gray-200 mt-10"
           placeholder="Gender"
         />
-        <button onClick={submit} className="h-12 w-80 text-white bg-gray-600 hover:bg-green-700 mt-10 rounded-lg">
+        <button
+          onClick={submit}
+          className="p-2 rounded text-center border-white mt-10 bg-gray-600 text-white h-12 w-80 hover:bg-gray-700 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline"
+        >
           Submit
         </button>
         <span className="mt-3">Already have an account? <Link

@@ -39,11 +39,6 @@ app.post("/", async (req, res) => {
             return res.status(200).json({
                 success: true,
                 username: user.name,
-                user: {
-                    ...user.toObject(),
-                    cart: user.cart.map(product => product._id),
-                    wishlist: user.wishlist.map(product => product._id),
-                }
             });
         } else {
             return res.json({ success: false, message: "Invalid email or password" });
