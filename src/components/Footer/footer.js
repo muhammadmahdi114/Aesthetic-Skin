@@ -29,7 +29,7 @@ const Footer = () => {
         <p className="text-lg ml-32">&copy; 2023 Aesthetic Skin</p>
         <p className="text-sm mb-4 ml-32">Islamabad, Pakistan</p>
 
-        <div className='flex justify-center gap-8 pt-5 ml-32'>
+        <div className='flex justify-center gap-8 pt-5 pl-36'>
           {socialLinks.map((link, index) => (
             <a
               key={index}

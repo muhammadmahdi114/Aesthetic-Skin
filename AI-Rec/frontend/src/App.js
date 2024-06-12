@@ -5,12 +5,9 @@ import {
   Routes as Switch,
   Route,
 } from "react-router-dom";
-
 import ImageInput from "./views/imageInput";
 import Recommendations from './views/Recommendations'
 import Form from "./views/Form";
-
-// MUI
 import CssBaseline from '@mui/material/CssBaseline';
 
 function App() {

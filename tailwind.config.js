@@ -20,8 +20,10 @@ module.exports = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'bgLogin':'url("/bgLogin.jpg")',
         'bgprod':'url("/bgimg.jpg")',
-        'bgai':'url("/ai-bg.png")'
-
+        'bgai':'url("/aibg.png")',
+        'bgabout':'url("/aboutbg.png")',
+        'bgblog':'url("/blogbg.jpg")',
+        'bgfaq':'url("/faqbg.png")',
       },
     },
   },

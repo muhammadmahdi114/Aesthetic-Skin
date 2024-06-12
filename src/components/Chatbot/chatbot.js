@@ -20,7 +20,7 @@ const ChatBot = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-4 right-4 w-72 h-96">
+    <div className="fixed bottom-4 right-4 w-72 h-80">
     </div>
   );
 };

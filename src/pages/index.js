@@ -4,6 +4,7 @@ import Product from '@/components/Products/product';
 import AI from '@/components/AI/ai';
 import Blog from '@/components/Blog/blog';
 import About from '@/components/About/about';
+import FAQ from '@/components/FAQ/FAQ';
 
 export default function Index() {
   const [active, setActive] = useState();
@@ -11,6 +12,7 @@ export default function Index() {
   const AiRef = useRef(null);
   const BlogRef = useRef(null);
   const AboutRef = useRef(null);
+  const FAQRef = useRef(null);
   useEffect(() => {
     document.title = 'Aesthetic Skin';
   }, []);
@@ -23,11 +25,13 @@ export default function Index() {
       AiRef={AiRef} 
       BlogRef={BlogRef}
       AboutRef={AboutRef}
+      FAQRef={FAQRef}
     >
       <Product ref={ProdRef} />
       <AI ref={AiRef} />
       <Blog ref={BlogRef} />
       <About ref={AboutRef} />
+      <FAQ ref={FAQRef}/>
     </Baselayout>
   );
 }

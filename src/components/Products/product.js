@@ -350,7 +350,7 @@ const Product = React.forwardRef((props, ref) => {
     return (
         <div className="font-cursive flex flex-col bg-bgprod bg-no-repeat bg-cover">
             <div className="h-screen w-screen bg-bgprod bg-no-repeat bg-cover p-4 flex flex-col items-center ">
-                <div className="text-6xl text-white font-bold font-cursive ml-40 mt-10">
+                <div className="text-6xl text-white font-bold font-cursive pl-36 mt-10">
                     Aesthetic Skin <br />
                 </div>
                 <div className='flex justify-end w-full -mt-12'>
@@ -421,9 +421,9 @@ const Product = React.forwardRef((props, ref) => {
                     </div>
                 </div>
             </div>
-            <div ref={ref} className="bg-slate-200 justify-end pl-40 pr-5">
+            <div ref={ref} className="bg-slate-200 justify-end pl-36 pr-5">
                 <div>
-                    <h1 className="font-cursive text-6xl text-center text-black font-extrabold mt-5 pl-5 mb-3 bg-slate-200">Products</h1>
+                    <h1 className="font-cursive text-6xl text-center text-black font-extrabold mt-5 mb-3 bg-slate-200">Products</h1>
                 </div>
                 <div className="flex justify-center w-screen -ml-20">
                     <div className="flex gap-x-6 text-black">

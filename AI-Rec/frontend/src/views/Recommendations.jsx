@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 // MUI
 import Container from '@mui/material/Container';
@@ -8,8 +8,6 @@ import Typography from '@mui/material/Typography';
 
 import ProductCard from './Components/ProductCard'
 import { useLocation } from 'react-router';
-
-
 
 // {'face-moisturisers': [{'brand': 'azani active care',
 //    'name': 'unisex acne rescue cream - 30 ml',

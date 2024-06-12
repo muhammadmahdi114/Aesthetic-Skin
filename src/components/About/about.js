@@ -53,23 +53,23 @@ const About = React.forwardRef((props, ref) => {
   return (
 
     <div ref={ref}>
-      <section className="bg-gray-500 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen flex flex-col justify-start items-center ml-20 py-10">
+      <section className="bg-bgabout bg-no-repeat overflow-hidden bg-cover text-black w-full min-h-screen flex flex-col justify-start items-center pl-36 py-10">
 
-        <h1 className="font-cursive text-6xl text-center font-extrabold">ABOUT</h1>
-        <a className="text-center text-lg text-white font-bold font-cursive mt-16 w-[1100px]">
+        <h1 className="font-cursive text-6xl text-center font-extrabold">About</h1>
+        <a className="text-center text-lg  font-bold font-cursive mt-16 w-[1100px]">
           In the era of globalization, increased consumer purchasing power, and a growing consciousness of hygiene and beauty,
           the skincare medicine industry is experiencing rapid growth. AESTHETIC SKIN, founded by Aamir Hanif in 2023,
-          has become a leading player in Pakistan, offering a range <br />of skincare products and equipment, while also collaborating
+          has become a leading player in Pakistan, offering a range of skincare products and equipment, while also collaborating
           with dermatologists and doctors.
 
-          The company's dedication to promoting <br /> a healthy skincare routine aligns with the industry's expanding market worth,
+          The company's dedication to promoting a healthy skincare routine aligns with the industry's expanding market worth,
           estimated at USD 14.5 billion in 2020, with a projected 9.2% CAGR growth from 2021 to 2027. Advancements in cosmetic
           techniques, increasing interest in aesthetic procedures,
-          and joint research and development <br />initiatives  are expected to drive further industry expansion and public awareness
+          and joint research and development initiatives  are expected to drive further industry expansion and public awareness.
         </a>
         <section className="w-full max-w-2xl mx-auto mt-16 text-black">
-          <h3 className="text-center text-2xl font-bold text-white">Comments</h3>
-          <div ref={commentRef} className="overflow-y-auto h-64 p-4 mt-4 border-2 bg-gray-200 border-gray-300">
+          <h3 className="text-center text-2xl font-bold ">Comments</h3>
+          <div ref={commentRef} className="overflow-y-auto h-64 p-4 mt-4 border-2 bg-gray-200 border-gray-300 bg-opacity-70">
             {comments.map((comment) => (
               <div key={comment._id} className="flex items-start mb-4">
                 <div className="flex-shrink-0 mr-4">
@@ -84,14 +84,14 @@ const About = React.forwardRef((props, ref) => {
               </div>
             ))}
           </div>
-          <h2 className="text-2xl text-center font-bold text-white mt-10">What do you have to say?</h2>
-          <h3 className="text-center text-xl text-white">Leave a comment</h3>
+          <h2 className="text-2xl text-center font-bold mt-10">What do you have to say?</h2>
+          <h3 className="text-center text-xl">Leave a comment</h3>
           <form onSubmit={handleCommentSubmit} className="w-full max-w-md mx-auto mt-8">
             <div className="flex items-center border-b-2 border-white py-2">
               <input
                 value={newComment}
                 onChange={(event) => setNewComment(event.target.value)}
-                className="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none"
+                className="appearance-none bg-transparent border-none w-full mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-black"
                 type="text"
                 placeholder="Add a comment..."
                 aria-label="Add a comment"

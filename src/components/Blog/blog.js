@@ -58,11 +58,11 @@ const Blog = React.forwardRef((props, ref) => {
   };
 
   return (
-    <div className='flex flex-col justify-start items-center text-black'>
-      <section ref={ref} className="bg-slate-200 bg-no-repeat overflow-hidden bg-cover w-full min-h-screen font-cursive py-10 ml-40">
-        <h2 className="text-4xl text-center font-bold">Blogs</h2>
+    <div className='flex flex-col justify-start items-center text-white'>
+      <section ref={ref} className="bg-bgblog bg-no-repeat overflow-hidden bg-cover w-full min-h-screen font-cursive py-10 pl-36">
+        <h2 className="text-4xl text-center font-bold">Blog</h2>
         <section className="w-full max-w-2xl mx-auto mt-16">
-          <h2 className="text-2xl text-center text-black font-bold">Read a Blog</h2>
+          <h2 className="text-2xl text-center font-bold">Read a Blog</h2>
           <div className="overflow-y-auto h-64 p-4 mt-4 border-2 bg-gray-200 border-gray-300">
             {blogs.map((blog) => (
               <div
@@ -86,7 +86,7 @@ const Blog = React.forwardRef((props, ref) => {
 
         {selectedBlog && (
           <div className="flex flex-col justify-center items-center mt-8">
-            <h1 className="text-black font-bold text-2xl">Blog Content</h1>
+            <h1 className="font-bold text-2xl">Blog Content</h1>
             <div className="w-full max-w-2xl mx-auto mt-8 p-4 border-2 border-gray-300 bg-gray-200 text-black">
               <h3 className="font-bold text-lg">{selectedBlog.title}</h3>
               <p className="text-gray-600">Author: {selectedBlog.author}</p>
@@ -95,10 +95,10 @@ const Blog = React.forwardRef((props, ref) => {
           </div>
         )}
         <section className="w-full max-w-2xl mx-auto mt-16">
-          <h2 className="text-2xl text-center text-black font-bold">Write a Blog</h2>
-          <form onSubmit={handleBlogSubmit} className="w-full max-w-md mx-auto mt-8 ">
+          <h2 className="text-2xl text-center font-bold">Write a Blog</h2>
+          <form onSubmit={handleBlogSubmit} className="w-full mx-auto mt-8">
             <div className="mb-4">
-              <label className="block text-lg text-gray-700 font-bold mb-2" htmlFor="title">
+              <label className="block text-lg text-gray-300 font-bold mb-2" htmlFor="title">
                 Title
               </label>
               <input
@@ -106,29 +106,31 @@ const Blog = React.forwardRef((props, ref) => {
                 type="text"
                 value={newBlogTitle}
                 onChange={(event) => setNewBlogTitle(event.target.value)}
-                className="appearance-none border rounded w-full max-w-2xl py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="appearance-none border rounded w-full max-w-2xl py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter blog title"
               />
             </div>
             <div className="mb-6">
-              <label className="block text-lg text-gray-700 font-bold mb-2" htmlFor="content">
+              <label className="block text-lg text-gray-300 font-bold mb-2" htmlFor="content">
                 Content (Up to 500 words)
               </label>
               <textarea
                 id="content"
                 value={newBlogContent}
                 onChange={(event) => setNewBlogContent(event.target.value)}
-                className="appearance-none border rounded py-2 px-3 w-full max-w-2xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
+                className="appearance-none border rounded py-2 px-3 w-full max-w-2xl text-black leading-tight focus:outline-none focus:shadow-outline h-32"
                 placeholder="Write your blog content here"
                 maxLength={500}
               />
             </div>
+            <div className='w-full flex justify-center items-center'>
             <button
-              className="p-2 rounded text-center border-white mt-4 bg-white w-60 hover:bg-gray-100 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline ml-24"
+              className="p-2 rounded text-center text-black border-white mt-4 bg-white w-60 hover:bg-gray-100 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Submit Blog
             </button>
+            </div>
           </form>
         </section>
       </section>

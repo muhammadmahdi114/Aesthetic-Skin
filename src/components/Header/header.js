@@ -1,7 +1,7 @@
 import React from 'react';
 import ChatBot from '../Chatbot/chatbot';
 
-export default function Header({ ProdRef, AiRef, BlogRef, AboutRef, active, setActive }) {
+export default function Header({ ProdRef, AiRef, BlogRef, AboutRef, FAQRef, active, setActive }) {
 
   const scrollToProduct = (ref, Product) => {
     ref.current.scrollIntoView({ behavior: "smooth" });
@@ -23,13 +23,13 @@ export default function Header({ ProdRef, AiRef, BlogRef, AboutRef, active, setA
     setActive(About)
   };
 
- 
-
-
-
+  const scrollToFAQ = (ref, FAQ) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+    setActive(FAQ)
+  };
 
   return (
-    <div className="bg-white overflow-hidden header fixed h-full w-36 flex flex-col justify-start px-2 gap-y-6">
+    <div className="bg-white overflow-hidden header fixed h-full w-36 flex flex-col justify-start px-2 gap-y-4">
       <div className="">
         <img
           src="/logo.png"
@@ -37,7 +37,7 @@ export default function Header({ ProdRef, AiRef, BlogRef, AboutRef, active, setA
           className="mb-2 mt-2"
         />
       </div>
-      <div className="flex flex-col gap-y-24 text-black font-bold font-cursive">
+      <div className="flex flex-col gap-y-20 text-black font-bold font-cursive">
         <button
           onClick={() => scrollToProduct(ProdRef, "Product")}
           className={`p-1 mt-2 hover:text-white hover:bg-[#c5c5c5] hover:shadow-xl hover:translate-y-[-8px] transition-all transform -rotate-90 ${active === "Product" ? "bg-white text-black" : ""
@@ -65,6 +65,13 @@ export default function Header({ ProdRef, AiRef, BlogRef, AboutRef, active, setA
             }`}
         >
           ABOUT US
+        </button>
+        <button
+          onClick={() => scrollToFAQ(FAQRef, "FAQ")}
+          className={`p-1 mt-2 hover:text-white hover:bg-[#c5c5c5] hover:shadow-xl hover:translate-y-[-8px] transition-all transform -rotate-90 ${active === "About" ? "bg-white text-black" : ""
+            }`}
+        >
+          FAQs
         </button>
       </div>
       <ChatBot/>

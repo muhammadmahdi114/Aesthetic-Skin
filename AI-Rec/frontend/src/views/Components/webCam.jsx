@@ -60,7 +60,7 @@ const WebcamCapture = ({ setImageSrc, setOnPlay, onPlay }) => {
             const imageSrc = webcamRef.current.getScreenshot();
             console.log(imageSrc)
             setImageSrc(imageSrc)
-        }, [webcamRef]
+        }, [webcamRef, setImageSrc]
     );
 
     const [initialising, setInitialising] = useState(false)

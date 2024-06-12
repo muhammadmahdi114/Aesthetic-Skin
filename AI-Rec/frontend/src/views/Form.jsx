@@ -1,4 +1,4 @@
-import React, { useState, useRef} from "react";
+import React, { useState} from "react";
 import {useNavigate} from 'react-router-dom';
 
 // MUI
@@ -88,7 +88,7 @@ const Form = () => {
         else {
             features[currType.toLowerCase()] = true;
         }
-        if (currAcne != "Low") {
+        if (currAcne !== "Low") {
             features['acne'] = true;
         }
         for (const [key, value] of Object.entries(features)) {
